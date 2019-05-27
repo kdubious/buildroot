@@ -1,0 +1,11 @@
+# set up the external structure
+
+make BR2_EXTERNAL=/mnt/c/Git/cambio3/buildroot/ nconfig
+
+
+
+# list all defconfigs
+make list-defconfigs
+
+# make ours
+make colibri-imx7_defconfig
