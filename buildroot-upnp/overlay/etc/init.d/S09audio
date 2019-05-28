@@ -1,0 +1,32 @@
+#!/bin/sh
+
+NAME=audio_driver
+
+start() {
+modprobe snd-soc-mp-codec
+}
+stop() {
+modprobe snd-soc-mp-codec -r
+}
+restart() {
+modprobe snd-soc-mp-codec -r
+sleep 2
+modprobe snd-soc-mp-codec
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart|reload)
+        restart
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?

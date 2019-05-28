@@ -1,11 +1,18 @@
 # set up the external structure
-
 make BR2_EXTERNAL=/mnt/c/Git/cambio3/buildroot/ nconfig
-
-
 
 # list all defconfigs
 make list-defconfigs
 
-# make ours
-make colibri-imx7_defconfig
+### make ours
+# merge configs
+cat /mnt/c/Git/cambio3/buildroot/configs/{colibri_imx7,upnp}_defconfig > /mnt/c/Git/cambio3/buildroot/configs/build_defconfig
+make build_defconfig
+
+
+# Recovery Mode: press recover and power on
+c:\Git\Toradex\colibri-imx7_toradexeasyinstaller_1.8-20181019\
+run recovery-windows.bat
+
+# STATUS
+cat /var/volatile/tezi.log

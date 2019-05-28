@@ -1,1 +1,1 @@
-# source "$BR2_EXTERNAL_MusicaPristina_PATH/package/raat/Config.in"
+# source "$BR2_EXTERNAL_UPNP_PATH/package/raat/Config.in"

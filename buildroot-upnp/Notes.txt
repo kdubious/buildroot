@@ -1,0 +1,15 @@
+Notes
+=====
+
+1. How to create config from fragments
+
+cat /mnt/c/Git/cambio3/buildroot/buildroot-upnp/{colibri_imx7,upnp}_defconfig > defconfig
+make BR2_EXTERNAL=/mnt/c/Git/cambio3/buildroot/buildroot-upnp BR2_DEFCONFIG=defconfig defconfig
+
+make
+
+2. How to run qemu
+
+/usr/bin/qemu-system-arm -M virt -m 256 -device virtio-net-pci,netdev=net0,mac=52:54:00:12:34:56 -netdev tap,id=net0,ifname=tap2,script=no,downscript=no -device virtio-blk-device,drive=d -drive file=output/images/rootfs.ext4,if=none,id=d,format=raw -show-cursor -device qemu-xhci -device usb-tablet -device virtio-rng-pci -device virtio-gpu-pci -device usb-audio -serial stdio -kernel output/images/zImage -append 'root=/dev/vda'
+
+(this will fail unless there is a DHCP server on tap2)

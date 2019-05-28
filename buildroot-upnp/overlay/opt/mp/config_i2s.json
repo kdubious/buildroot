@@ -1,0 +1,21 @@
+{
+  "vendor": "Musica Pristina",
+  "model": "A Cappella II",
+  "serial": "SN-01222001",
+  "version": "01.01.1005",
+  "unique_id": "76a134fc-b1ae-4c90-8d59-0dac01222001",
+  "config_url": "http://__SELF__/",
+  "output": {
+    "type": "alsa",
+    "device": "hw:0,0",
+    "buffer_duration": 0.040,
+    "signal_path": [
+      {
+        "quality": "lossless",
+        "type": "output",
+        "method": "i2s"
+      }
+    ]
+  },
+  "volume": { "type": "none" }
+}

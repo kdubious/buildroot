@@ -1,0 +1,17 @@
+{
+    "firstUse": 1,
+    "name": "",
+    "email": "",
+    "serialNumber": "",
+    "purchaseDate": "",
+    "deviceID": "76a134fc-b1ae-4c90-8d59-0dac01222003",
+    "firmwareVersion": "003.001.1001",
+    "model": "A Cappella II",
+    "networkType": 2,
+    "volumeControl": 0,
+    "outputType": 1,
+    "dop": 0,
+    "mute": 0,
+    "maxrate": 768,
+    "ocxo": 1
+}
