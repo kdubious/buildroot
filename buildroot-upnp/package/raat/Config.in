@@ -1,0 +1,7 @@
+config BR2_PACKAGE_RAAT
+    bool "raat"
+    help
+      This is a comment that explains what raat is. The help text
+      should be wrapped.
+      
+      http://roonlabs.com/

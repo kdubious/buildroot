@@ -1,1 +1,1 @@
-rm $TARGET_DIR/etc/init.d/S95mpd
+rm -f $TARGET_DIR/etc/init.d/S95mpd

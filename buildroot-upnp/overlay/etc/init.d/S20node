@@ -7,58 +7,74 @@ NODE_ENV="production"
 PORT="80"
 APP_DIR="/www/server/server"
 NODE_APP="server.js"
+NODE_ENVIROMENT=production               # Node environment
 KWARGS=""
 CONFIG_DIR="$APP_DIR"
 PID_DIR="/var/run"
 PID_FILE="$PID_DIR/$APP_NAME.pid"
 LOG_DIR="$APP_DIR/log"
+
+
+#!/bin/sh
+
+NAME=Cambio_NodeJS
+PIDFILE=/var/run/$NAME.pid
+LOGFILE=/var/log/$NAME.log
+APP_DIR="/www/server/server"
+NODE_APP="server.js"
+DAEMON=$(which node)
+DAEMON_ARGS="/www/server/server/server.js"
+
+start() {
+    export NODE_ENV=$NODE_ENVIROMENT
+    printf "Starting $NAME: "
+    start-stop-daemon -S -q -m -b -p $PIDFILE --exec $DAEMON -- $DAEMON_ARGS
+    [ $? = 0 ] && echo "OK, started with pid $PIDFILE" || echo "FAIL"
+}
+stop() {
+    printf "Stopping $NAME: "
+    start-stop-daemon -K -q -p $PIDFILE
+    [ $? = 0 ] && echo "OK" || echo "FAIL"
+}
+restart() {
+    stop
+    sleep 2
+    start
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart|reload)
+        restart
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?
+
+#!/bin/sh
+
+APP_NAME="app"
+USER="root"
+GROUP="$USER"
+NODE_ENV="production"
+PORT="3000"
+APP_DIR="/var/www/example.com"
+NODE_APP="app.js"
+KWARGS=""
+CONFIG_DIR="$APP_DIR"
+PID_DIR="$APP_DIR/pid"
+PID_FILE="$PID_DIR/$APP_NAME.pid"
+LOG_DIR="$APP_DIR/log"
 LOG_FILE="$LOG_DIR/$APP_NAME.log"
 NODE_EXEC=$(which node)
-
-pid_file_exists() {
-    [ -f "$PID_FILE" ]
-}
-
-get_pid() {
-    echo "$(cat "$PID_FILE")"
-}
-
-is_running() {
-    PID="$(get_pid)"
-    [ -d /proc/$PID ]
-}
-
-start_it() {
-    mkdir -p "$PID_DIR"
-    chown $USER:$GROUP "$PID_DIR"
-    mkdir -p "$LOG_DIR"
-    chown $USER:$GROUP "$LOG_DIR"
-
-    echo "Starting $APP_NAME ..."
-    echo "cd $APP_DIR
-        if [ $? -ne 0 ]; then
-          exit
-        fi
-        set -a
-        PORT=$PORT
-        NODE_ENV=$NODE_ENV
-        NODE_CONFIG_DIR=$CONFIG_DIR
-        $NODE_EXEC \"$APP_DIR\"/$NODE_APP $KWARGS &>> \"$LOG_FILE\" &
-        echo \$! > $PID_FILE" | sudo -i -u $USER
-    echo "$APP_NAME started with pid $(get_pid)"
-}
-
-stop_process() {
-    PID=$(get_pid)
-    echo "Killing process $PID"
-    kill $PID
-    wait $PID 2>/dev/null
-}
-
-remove_pid_file() {
-    echo "Removing pid file"
-    rm -f "$PID_FILE"
-}
 
 start() {
     if pid_file_exists

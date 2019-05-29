@@ -1,1 +1,1 @@
-        gmediarender -1 gmediarender -1 * - - audio GMediaRender UPnP Renderer
+#        gmediarender -1 gmediarender -1 * - - audio GMediaRender UPnP Renderer

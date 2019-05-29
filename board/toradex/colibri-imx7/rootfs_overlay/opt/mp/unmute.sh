@@ -1,6 +1,0 @@
-#!/bin/bash
-# The MP setup
-
-# This script unmutes the USB Audio Outoput default:CARD=UAC2
-amixer set -c 3 'iAP Interface',0 unmute
-amixer set -c 3 'iAP Interface',1 unmute

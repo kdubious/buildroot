@@ -5,6 +5,19 @@ PIDFILE=/var/run/$NAME.pid
 DAEMON=/opt/roon/$NAME
 DAEMON_ARGS="/opt/roon/config.json"
 
+pid_file_exists() {
+    [ -f "$PIDFILE" ]
+}
+
+get_pid() {
+    echo "$(cat "$PIDFILE")"
+}
+
+is_running() {
+    PID="$(get_pid)"
+    [ -d /proc/$PID ]
+}
+
 start() {
         printf "Starting $NAME: "
         start-stop-daemon -S -q -m -b -p $PIDFILE --exec $DAEMON -- $DAEMON_ARGS
@@ -21,6 +34,21 @@ restart() {
         start
 }
 
+status() {
+    if pid_file_exists
+    then
+        if is_running
+        then
+            PID=$(get_pid)
+            echo "$NAME is running with pid $PID"
+        else
+            echo "$NAME is stopped, but pid file exists"
+        fi
+    else
+        echo "$NAME is stopped"
+    fi
+}
+
 case "$1" in
   start)
         start
@@ -30,6 +58,9 @@ case "$1" in
         ;;
   restart|reload)
         restart
+        ;;
+  status)
+        status
         ;;
   *)
         echo "Usage: $0 {start|stop|restart}"
