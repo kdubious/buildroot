@@ -21,7 +21,7 @@ is_running() {
 start() {
         printf "Starting $NAME: "
         start-stop-daemon -S -q -m -b -p $PIDFILE --exec $DAEMON -- $DAEMON_ARGS
-        [ $? = 0 ] && echo "OK" || echo "FAIL"
+        [ $? = 0 ] && echo "OK started with pid $PIDFILE : $(get_pid)" || echo "FAIL"
 }
 stop() {
         printf "Stopping $NAME: "
@@ -40,7 +40,7 @@ status() {
         if is_running
         then
             PID=$(get_pid)
-            echo "$NAME is running with pid $PID"
+            echo "$NAME is running with pid $PIDFILE : $(get_pid)"
         else
             echo "$NAME is stopped, but pid file exists"
         fi

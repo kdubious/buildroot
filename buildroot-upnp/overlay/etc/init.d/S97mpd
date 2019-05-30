@@ -21,7 +21,7 @@ is_running() {
 start() {
         printf "Starting mpd: "
         start-stop-daemon --start --quiet --background --exec /usr/bin/mpd \
-                && echo "OK" || echo "FAIL"
+                && echo "OK started with pid $PIDFILE : $(get_pid)" || echo "FAIL"
 }
 
 stop() {
@@ -36,7 +36,7 @@ status() {
         if is_running
         then
             PID=$(get_pid)
-            echo "$NAME is running with pid $PID"
+            echo "$NAME is running with pid $PIDFILE : $(get_pid)"
         else
             echo "$NAME is stopped, but pid file exists"
         fi
