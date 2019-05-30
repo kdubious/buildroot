@@ -1,0 +1,107 @@
+From e08c6f3a1dbb50fd41862a838e76042775c731f6 Mon Sep 17 00:00:00 2001
+From: Kevin Welsh <kwelsh@welshtechnologies.com>
+Date: Thu, 30 May 2019 12:51:45 -0400
+Subject: [PATCH 1/3] update mk to fix error
+
+---
+ raat_app/build.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/raat_app/build.mk b/raat_app/build.mk
+index 0b90783..6113577 100644
+--- a/raat_app/build.mk
++++ b/raat_app/build.mk
+@@ -8,7 +8,7 @@ raat_app_DEPS    = raat	\
+ 		   raat_output_null \
+ 		   raat_output_capture \
+ 		   raat_source_selection_test \
+-		   raat_plugin_source_selection_mp \
++		   raat_source_selection_mp \
+ 		   raat_volume_dummy \
+ 		   raat_volume_incremental \
+ 		   raat_volume_software \
+-- 
+2.21.0.windows.1
+
+
+From ffbcfb8e1e4dad1fbecfbe50611dee0794a70d0a Mon Sep 17 00:00:00 2001
+From: Kevin Welsh <kwelsh@welshtechnologies.com>
+Date: Thu, 30 May 2019 13:22:27 -0400
+Subject: [PATCH 2/3] fix for if
+
+---
+ plugins/raat_plugin_source_selection_mp.c | 4 ++--
+ raat_app/raat_app.c                       | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/plugins/raat_plugin_source_selection_mp.c b/plugins/raat_plugin_source_selection_mp.c
+index 263d5eb..671a098 100644
+--- a/plugins/raat_plugin_source_selection_mp.c
++++ b/plugins/raat_plugin_source_selection_mp.c
+@@ -105,7 +105,7 @@ static void source_selection_request_standby(void *vself, RAAT__SourceSelectionR
+ RC__Status 
+ RAAT__mp_source_selection_plugin_new(RC__Allocator *alloc, RAAT__Device *device, json_t *config, RAAT__SourceSelectionPlugin **out_source_selection) { 
+     alloc = RC__allocator_default(alloc);
+-    MPSourceSelectionPlugin *self            = RC__new0(alloc, MPSourceSelectionPlugin, 1);
++    MPSourceSelectionPlugin *self      = RC__new0(alloc, MPSourceSelectionPlugin, 1);
+     if (self == NULL) return RC__STATUS_OUT_OF_MEMORY;
+     self->alloc                        = alloc;
+     self->log                          = RAAT__device_get_log(device);
+@@ -124,7 +124,7 @@ RAAT__mp_source_selection_plugin_new(RC__Allocator *alloc, RAAT__Device *device,
+     self->info = json_object();
+     json_object_set(self->info, "config", config);
+ 
+-    RAAT__TRACE("[source_selection/mp] initialized");
++    RAAT__TRACE("[source_selection/test] initialized");
+ 
+     *out_source_selection = &self->plugin;
+     return RC__STATUS_SUCCESS;
+diff --git a/raat_app/raat_app.c b/raat_app/raat_app.c
+index 497ff58..6f60bcf 100644
+--- a/raat_app/raat_app.c
++++ b/raat_app/raat_app.c
+@@ -249,7 +249,7 @@ int main(int argc, char **argv) {
+         if (!strcmp(type, "test")) {
+             status = RAAT__test_source_selection_plugin_new(RC__ALLOCATOR_DEFAULT, device, source_selection, &source_selection_plugin);
+             if (!RC__STATUS_IS_SUCCESS(status)) { rcfail(status, "failed to initialize test source_selection"); }
+-        if (!strcmp(type, "mp"))
++        } else if (!strcmp(type, "mp")) {
+             status = RAAT__mp_source_selection_plugin_new(RC__ALLOCATOR_DEFAULT, device, source_selection, &source_selection_plugin);
+             if (!RC__STATUS_IS_SUCCESS(status)) { rcfail(status, "failed to initialize MP source_selection"); }
+         } else {
+-- 
+2.21.0.windows.1
+
+
+From d5830096d1d66e7cc28e0edcc3486e89bf701ddf Mon Sep 17 00:00:00 2001
+From: Kevin Welsh <kwelsh@welshtechnologies.com>
+Date: Thu, 30 May 2019 13:49:37 -0400
+Subject: [PATCH 3/3] source_selection
+
+---
+ plugins/raat_plugin_source_selection_mp.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/plugins/raat_plugin_source_selection_mp.c b/plugins/raat_plugin_source_selection_mp.c
+index 671a098..c4de440 100644
+--- a/plugins/raat_plugin_source_selection_mp.c
++++ b/plugins/raat_plugin_source_selection_mp.c
+@@ -71,7 +71,14 @@ static void source_selection_request_source(void *vself, RAAT__SourceSelectionRe
+     RC__ASSERT(self);
+     RAAT__TRACE("[source_selection/mp] source acquired");
+ 
+-    const char *source_selection_command = json_string_value(json_object_get(self->info, "source_selection_command"));
++    json_t *config = json_object_get(self->info, "config");
++    RAAT__TRACE("[source_selection/mp] *config: %s", json_string_value(config));
++
++    json_t *source_selection = json_object_get(self->info, "source_selection");
++    RAAT__TRACE("[source_selection/mp] *source_selection: %s", json_string_value(source_selection));
++
++
++    const char *source_selection_command = json_string_value(json_object_get(config, "source_selection_command"));
+     RAAT__TRACE("[source_selection/mp] source_selection_command: %s", source_selection_command);
+ 
+     RAAT__TRACE("[source_selection/mp] pre /opt/roon/sourceselect");
+-- 
+2.21.0.windows.1
+

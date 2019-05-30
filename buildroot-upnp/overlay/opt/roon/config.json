@@ -20,5 +20,8 @@
   },
   "volume": {
     "type": "none"
+  },
+  "source_selection": {
+    "type":"test"
   }
 }
