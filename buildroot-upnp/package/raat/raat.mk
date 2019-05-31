@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RAAT_VERSION = v1.5
+RAAT_VERSION = v1.6
 RAAT_SITE = https://github.com/kdubious/raat
 RAAT_SITE_METHOD = git
 RAAT_LICENSE = 
