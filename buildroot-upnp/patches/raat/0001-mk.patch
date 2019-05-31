@@ -1,0 +1,399 @@
+diff --git a/.gitignore b/.gitignore
+index ba6cdf7..58cb625 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -9,4 +9,5 @@ Release
+ *.filters
+ *.vs
+ *.opendb
+-
++.vscode/
++*.patch
+\ No newline at end of file
+diff --git a/COOKBOOK b/COOKBOOK
+new file mode 100644
+index 0000000..77eb4ff
+--- /dev/null
++++ b/COOKBOOK
+@@ -0,0 +1,53 @@
++###############################
++# Cookbook_RAAT
++
++# get from Github
++
++# connect to Roon
++git remote add upstream https://github.com/RoonLabs/raat.git
++
++# Pull latest from Roon
++git pull upstream master
++
++# Compile RAAT
++# compiles to ~/Roon/raat/bin/release/linux/armv7hf/
++
++make TARGET=linux-mp CONFIG=release
++cp ~/Roon/raat/bin/release/linux/armv7hf/raat_app ~/Cambio/deploy/system/opt/roon/raat_app
++
++
++################################
++# RAAT make
++
++PLATFORM=linux
++ARCH=armv7hf
++HAVE_ALSA=1
++CC=arm-linux-gnueabihf-gcc
++LD=arm-linux-gnueabihf-gcc
++CFLAGS := -DPLATFORM_LINUX -DARCH_ARM -DHAVE_ALSA -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fPIC -marm -march=armv7-a -mfloat-abi=hard -mfpu=neon -DARM_FPU_VFP_HARD -mthumb-interwork -mtune=cortex-a9
++
++LDFLAGS=
++OPTIMIZEFLAGS=-O2
++DEBUGFLAGS=-ggdb3
++
++
++################################
++# ALSA GCC SETUP
++tar -xjf
++
++PLATFORM=linux ARCH=armv7hf HAVE_ALSA=1 CC=arm-linux-gnueabihf-gcc LD=arm-linux-gnueabihf-gcc ./configure --host=arm-linux-gnueabihf
++make
++make install
++mkdir ~/gcc-linaro/arm-linux-gnueabihf/include/alsa
++cp include/* ~/toolchain/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/include/alsa -r
++cp ~/git/ALSA/alsa-lib-1.1.8/src/.libs/* ~/toolchain/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/lib
++
++
++
++PLATFORM=linux ARCH=armv7hf HAVE_ALSA=1 CC=arm-linux-gnueabihf-gcc LD=arm-linux-gnueabihf-gcc ./configure --host=arm-linux-gnueabihf --disable-webserver --disable-client
++
++====
++====
++====
++
++bitbake console-tdx-image
+diff --git a/a.out b/a.out
+new file mode 100755
+index 0000000..eb82739
+Binary files /dev/null and b/a.out differ
+diff --git a/linux-lime2.mk b/linux-lime2.mk
+new file mode 100644
+index 0000000..4a6a9c2
+--- /dev/null
++++ b/linux-lime2.mk
+@@ -0,0 +1,11 @@
++PLATFORM=linux
++ARCH=armv7hf
++HAVE_ALSA=1
++CC=arm-linux-gnueabihf-gcc
++LD=arm-linux-gnueabihf-gcc
++CFLAGS := -DPLATFORM_LINUX -DARCH_ARM -DHAVE_ALSA -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fPIC -marm -march=armv7-a -mfloat-abi=hard -mfpu=neon -DARM_FPU_VFP_HARD -mthumb-interwork -mtune=cortex-a9
++CFLAGS += --sysroot=/usr/arm-linux-gnueabihf
++LDFLAGS=
++OPTIMIZEFLAGS=-O2
++DEBUGFLAGS=-ggdb3
++
+diff --git a/linux-lime2.mk~ b/linux-lime2.mk~
+new file mode 100644
+index 0000000..7518919
+--- /dev/null
++++ b/linux-lime2.mk~
+@@ -0,0 +1,11 @@
++PLATFORM=linux
++ARCH=armv7hf
++HAVE_ALSA=1
++CC=arm-linux-gnueabihf-gcc
++LD=/usr/arm-linux-gnueabihf/bin/ld
++CFLAGS := -DPLATFORM_LINUX -DARCH_ARM -DHAVE_ALSA -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fPIC -marm -march=armv7-a -mfloat-abi=hard -mfpu=neon -DARM_FPU_VFP_HARD -mthumb-interwork -mtune=cortex-a9
++CFLAGS += --sysroot=/usr/arm-linux-gnueabihf
++LDFLAGS=
++OPTIMIZEFLAGS=-O2
++DEBUGFLAGS=-ggdb3
++
+diff --git a/linux-mp-buildroot.mk b/linux-mp-buildroot.mk
+new file mode 100644
+index 0000000..189e141
+--- /dev/null
++++ b/linux-mp-buildroot.mk
+@@ -0,0 +1,6 @@
++PLATFORM=linux
++ARCH=armv7hf
++HAVE_ALSA=1
++CFLAGS:=-DPLATFORM_LINUX -DARCH_ARM -DHAVE_ALSA -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fPIC -DARM_FPU_VFP_HARD
++OPTIMIZEFLAGS=-O2
++DEBUGFLAGS=-ggdb3
+\ No newline at end of file
+diff --git a/linux-mp.mk b/linux-mp.mk
+new file mode 100644
+index 0000000..57dc431
+--- /dev/null
++++ b/linux-mp.mk
+@@ -0,0 +1,11 @@
++PLATFORM=linux
++ARCH=armv7hf
++HAVE_ALSA=1
++CC=arm-linux-gnueabihf-gcc
++LD=arm-linux-gnueabihf-gcc
++CFLAGS := -DPLATFORM_LINUX -DARCH_ARM -DHAVE_ALSA -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fPIC -marm -march=armv7-a -mfloat-abi=hard -mfpu=neon -DARM_FPU_VFP_HARD -mthumb-interwork -mtune=cortex-a9
++CFLAGS += --sysroot=/usr/arm-linux-gnueabihf -I=/include
++#CFLAGS += --sysroot=~/gcc-linaro/arm-linux-gnueabihf -I=/include
++LDFLAGS=
++OPTIMIZEFLAGS=-O2
++DEBUGFLAGS=-ggdb3
+\ No newline at end of file
+diff --git a/plugins/build.mk b/plugins/build.mk
+index b22ce82..499a18a 100644
+--- a/plugins/build.mk
++++ b/plugins/build.mk
+@@ -32,6 +32,14 @@ raat_source_selection_test_SOURCES  := raat_plugin_source_selection_test.c
+ 
+ $(eval $(call BUILD_STATICLIB,raat_source_selection_test))
+ 
++#
++# source_selection_mp plugin
++#
++raat_source_selection_mp_DEPS     := raat
++raat_source_selection_mp_SOURCES  := raat_plugin_source_selection_mp.c
++
++$(eval $(call BUILD_STATICLIB,raat_source_selection_mp))
++
+ #
+ # volume_dummy plugin
+ #
+diff --git a/plugins/raat_plugin_source_selection_mp.c b/plugins/raat_plugin_source_selection_mp.c
+new file mode 100644
+index 0000000..2e667fc
+--- /dev/null
++++ b/plugins/raat_plugin_source_selection_mp.c
+@@ -0,0 +1,143 @@
++//
++// The contents of this file are subject to RAAT SDK License
++// agreement; You may not use this file except in compliance
++// with the License.
++//
++// Copyright (C) 2015 Roon Labs LLC
++//
++// All Rights Reserved.
++//
++#include "raat_plugin_source_selection_mp.h"
++#include "rc_list.h"
++
++#include <uv.h>
++
++#include <stdio.h>
++#include <stdlib.h>
++
++#define RAAT__CURRENT_LOG self->log
++
++/*
++ * SourceSelection Plugin
++ */
++typedef struct {
++    RAAT__SourceSelectionPlugin          plugin;          // must be first item in struct
++    uv_mutex_t                           lock;
++    RC__Allocator                       *alloc;
++    RAAT__SourceSelectionStateListeners  state_listeners;
++    RAAT__Log                           *log;
++    RAAT__SourceSelectionStatus          status;
++    RAAT__OutputPlugin                  *output;
++    json_t                              *info;
++} MPSourceSelectionPlugin;
++
++static RC__Status source_selection_add_state_listener(void *vself, RAAT__SourceSelectionStateCallback cb, void *userdata) {
++    MPSourceSelectionPlugin *self = (MPSourceSelectionPlugin*)vself;
++    return RAAT__source_selection_state_listeners_add(&self->state_listeners, cb, userdata);
++}
++
++static RC__Status source_selection_remove_state_listener(void *vself, RAAT__SourceSelectionStateCallback cb, void *userdata) {
++    MPSourceSelectionPlugin *self = (MPSourceSelectionPlugin*)vself;
++    return RAAT__source_selection_state_listeners_remove(&self->state_listeners, cb, userdata);
++}
++
++static RC__Status source_selection_get_info(void *vself, json_t **out_info) {
++    MPSourceSelectionPlugin *self = (MPSourceSelectionPlugin*)vself;
++
++    RC__ASSERT(self);
++    RC__ASSERT(out_info);
++
++    json_incref(self->info);
++    *out_info = self->info;
++
++    return RC__STATUS_SUCCESS;
++}
++
++static RC__Status source_selection_get_state(void *vself, RAAT__SourceSelectionState *out_state) {
++    MPSourceSelectionPlugin *self = (MPSourceSelectionPlugin*)vself;
++
++    RC__ASSERT(self != NULL);
++    RC__ASSERT(out_state != NULL);
++
++    out_state->status   = self->status;
++
++    return RC__STATUS_SUCCESS;
++}
++
++static void source_selection_request_source(void *vself, RAAT__SourceSelectionRequestSourceCallback cb, void *cb_userdata) {
++    MPSourceSelectionPlugin *self = (MPSourceSelectionPlugin*)vself;
++
++    RAAT__TRACE("[source_selection/mp] requesting source");
++    RC__ASSERT(self);
++    RAAT__TRACE("[source_selection/mp] source acquired");
++
++    json_t *config = json_object_get(self->info, "config");
++    const char *source_selection_command = json_string_value(json_object_get(config, "source_selection_command"));
++    RAAT__TRACE("[source_selection/mp] source_selection_command: %s", source_selection_command);
++
++    RAAT__TRACE("[source_selection/mp] pre /opt/roon/sourceselect");
++    system(source_selection_command);
++    RAAT__TRACE("[source_selection/mp] post /opt/roon/sourceselect");
++
++    self->status = RAAT__SOURCE_SELECTION_STATUS_SELECTED; 
++    RAAT__SourceSelectionState state = {0,};
++    state.status = self->status;
++    RAAT__source_selection_state_listeners_invoke(&self->state_listeners, &state);
++
++    cb(cb_userdata, RC__STATUS_SUCCESS, NULL);
++}
++
++static void source_selection_request_standby(void *vself, RAAT__SourceSelectionRequestSourceCallback cb, void *cb_userdata) {
++    MPSourceSelectionPlugin *self = (MPSourceSelectionPlugin*)vself;
++
++    RAAT__TRACE("[source_selection/mp] requesting standby");
++    RC__ASSERT(self);
++
++    RAAT__TRACE("[source_selection/mp] in standby");
++
++    self->status = RAAT__SOURCE_SELECTION_STATUS_STANDBY; 
++    RAAT__SourceSelectionState state = {0,};
++    state.status = self->status;
++    RAAT__source_selection_state_listeners_invoke(&self->state_listeners, &state);
++
++    cb(cb_userdata, RC__STATUS_SUCCESS, NULL);
++}
++
++RC__Status 
++RAAT__mp_source_selection_plugin_new(RC__Allocator *alloc, RAAT__Device *device, json_t *config, RAAT__SourceSelectionPlugin **out_source_selection) { 
++    alloc = RC__allocator_default(alloc);
++    MPSourceSelectionPlugin *self      = RC__new0(alloc, MPSourceSelectionPlugin, 1);
++    if (self == NULL) return RC__STATUS_OUT_OF_MEMORY;
++    self->alloc                        = alloc;
++    self->log                          = RAAT__device_get_log(device);
++    self->plugin.get_info              = source_selection_get_info;
++    self->plugin.add_state_listener    = source_selection_add_state_listener;
++    self->plugin.remove_state_listener = source_selection_remove_state_listener;
++    self->plugin.get_state             = source_selection_get_state;
++    self->plugin.request_source        = source_selection_request_source;
++    self->plugin.request_standby       = source_selection_request_standby;
++    self->status                       = RAAT__SOURCE_SELECTION_STATUS_STANDBY;
++    self->output                       = RAAT__device_get_output_plugin(device);
++
++    uv_mutex_init(&self->lock);
++    RAAT__source_selection_state_listeners_init(&self->state_listeners, self->alloc);
++
++    self->info = json_object();
++    json_object_set(self->info, "config", config);
++
++    RAAT__TRACE("[source_selection/test] initialized");
++
++    *out_source_selection = &self->plugin;
++    return RC__STATUS_SUCCESS;
++}
++
++void
++RAAT__mp_source_selection_plugin_delete(RAAT__SourceSelectionPlugin *source_selection) {
++    MPSourceSelectionPlugin *self = (MPSourceSelectionPlugin*)source_selection;
++    uv_mutex_destroy(&self->lock);
++    if (self->info) json_decref(self->info);
++    RAAT__source_selection_state_listeners_destroy(&self->state_listeners);
++    RC__free(self->alloc, self);
++}
++
++
+diff --git a/plugins/raat_plugin_source_selection_mp.h b/plugins/raat_plugin_source_selection_mp.h
+new file mode 100644
+index 0000000..850e8c6
+--- /dev/null
++++ b/plugins/raat_plugin_source_selection_mp.h
+@@ -0,0 +1,36 @@
++//
++// The contents of this file are subject to RAAT SDK License
++// agreement; You may not use this file except in compliance
++// with the License.
++//
++// Copyright (C) 2015 Roon Labs LLC
++//
++// All Rights Reserved.
++//
++#ifndef INCLUDED_RAAT_PLUGIN_SOURCE_SELECTION_MP_H
++#define INCLUDED_RAAT_PLUGIN_SOURCE_SELECTION_MP_H
++
++#include "rc_base.h"
++#include "rc_allocator.h"
++#include "rc_status.h"
++#include "raat_fwd.h"
++#include "raat_device.h"
++#include "raat_plugin_source_selection.h"
++#include "raat_plugin_output.h"
++
++#include <jansson.h>
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++RC__Status
++RAAT__mp_source_selection_plugin_new(RC__Allocator *alloc, RAAT__Device *device, json_t *config, RAAT__SourceSelectionPlugin **out_source_selection); 
++void
++RAAT__mp_source_selection_plugin_delete(RAAT__SourceSelectionPlugin *out_source_selection);
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif
+diff --git a/plugins/raat_plugin_source_selection_test.c b/plugins/raat_plugin_source_selection_test.c
+index ae54153..a51e10c 100644
+--- a/plugins/raat_plugin_source_selection_test.c
++++ b/plugins/raat_plugin_source_selection_test.c
+@@ -12,6 +12,9 @@
+ 
+ #include <uv.h>
+ 
++#include <stdio.h>
++#include <stdlib.h>
++
+ #define RAAT__CURRENT_LOG self->log
+ 
+ /*
+diff --git a/raat_app/build.mk b/raat_app/build.mk
+index f989bbd..6113577 100644
+--- a/raat_app/build.mk
++++ b/raat_app/build.mk
+@@ -8,6 +8,7 @@ raat_app_DEPS    = raat	\
+ 		   raat_output_null \
+ 		   raat_output_capture \
+ 		   raat_source_selection_test \
++		   raat_source_selection_mp \
+ 		   raat_volume_dummy \
+ 		   raat_volume_incremental \
+ 		   raat_volume_software \
+diff --git a/raat_app/raat_app.c b/raat_app/raat_app.c
+index 4763626..6f60bcf 100644
+--- a/raat_app/raat_app.c
++++ b/raat_app/raat_app.c
+@@ -24,6 +24,7 @@
+ #include "raat_plugin_output_null.h"
+ #include "raat_plugin_output_capture.h"
+ #include "raat_plugin_source_selection_test.h"
++#include "raat_plugin_source_selection_mp.h"
+ #include "raat_plugin_transport_test.h"
+ 
+ #if defined(PLATFORM_LINUX) && defined(HAVE_ALSA)
+@@ -248,7 +249,9 @@ int main(int argc, char **argv) {
+         if (!strcmp(type, "test")) {
+             status = RAAT__test_source_selection_plugin_new(RC__ALLOCATOR_DEFAULT, device, source_selection, &source_selection_plugin);
+             if (!RC__STATUS_IS_SUCCESS(status)) { rcfail(status, "failed to initialize test source_selection"); }
+-
++        } else if (!strcmp(type, "mp")) {
++            status = RAAT__mp_source_selection_plugin_new(RC__ALLOCATOR_DEFAULT, device, source_selection, &source_selection_plugin);
++            if (!RC__STATUS_IS_SUCCESS(status)) { rcfail(status, "failed to initialize MP source_selection"); }
+         } else {
+             if (type == NULL) fail("Invalid config %s: unknown source_selection type '%s'", type);
+         }
