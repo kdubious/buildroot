@@ -1,0 +1,69 @@
+#!/bin/sh
+
+NAME=reset
+PIDFILE=/var/run/$NAME.pid
+DAEMON="/opt/mp/reset.sh"
+DAEMON_ARGS=""
+
+pid_file_exists() {
+    [ -f "$PIDFILE" ]
+}
+
+get_pid() {
+    echo "$(cat "$PIDFILE")"
+}
+
+is_running() {
+    PID="$(get_pid)"
+    [ -d /proc/$PID ]
+}
+
+start() {
+    printf "Starting $NAME: "
+    start-stop-daemon -S -q -m -b -p $PIDFILE --exec $DAEMON
+    [ $? = 0 ] && echo "OK, started with pid $PIDFILE : $(get_pid)" || echo "FAIL"
+}
+stop() {
+    printf "Stopping $NAME: "
+    start-stop-daemon -K -q -p $PIDFILE
+    [ $? = 0 ] && echo "OK" || echo "FAIL"
+}
+restart() {
+    stop
+    sleep 2
+    start
+}
+status() {
+    if pid_file_exists
+    then
+        if is_running
+        then
+            PID=$(get_pid)
+            echo "$NAME is running with pid $PIDFILE : $(get_pid)"
+        else
+            echo "$NAME is stopped, but pid file exists"
+        fi
+    else
+        echo "$NAME is stopped"
+    fi
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart|reload)
+        restart
+        ;;
+  status)
+        status
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?

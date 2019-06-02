@@ -1,0 +1,5 @@
+config BR2_PACKAGE_MPCODEC
+	bool "mpcodec"
+	depends on BR2_LINUX_KERNEL
+	help
+	  Kernel driver for MP codec
