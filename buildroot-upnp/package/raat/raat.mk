@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RAAT_VERSION = master
+RAAT_VERSION = b1b1148
 RAAT_SITE = https://github.com/RoonLabs/raat.git
 RAAT_SITE_METHOD = git
 RAAT_LICENSE = 

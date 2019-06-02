@@ -12,7 +12,7 @@ index 97ba6b79834c..11638144013d 100644
 \ No newline at end of file
 diff --git a/arch/arm/boot/dts/imx7d-colibri-mp.dts b/arch/arm/boot/dts/imx7d-colibri-mp.dts
 new file mode 100644
-index 000000000000..71c97a64c920
+index 000000000000..14f989ec87b7
 --- /dev/null
 +++ b/arch/arm/boot/dts/imx7d-colibri-mp.dts
 @@ -0,0 +1,141 @@
@@ -98,7 +98,7 @@ index 000000000000..71c97a64c920
 +&i2c4 {
 +	status = "okay";
 +	codec_mp: mp_clkgen@75 {
-+		compatible = "mp,codec-clkgen";
++		compatible = "mp,mp-clkgen";
 +		#sound-dai-cells = <0>;
 +		reg = <0x75>;
 +	};
@@ -158,6 +158,400 @@ index 000000000000..71c97a64c920
 +	};
 +};
 \ No newline at end of file
+diff --git a/arch/arm/configs/colibri_imx7_defconfig b/arch/arm/configs/colibri_imx7_defconfig
+new file mode 100644
+index 000000000000..7745a933e947
+--- /dev/null
++++ b/arch/arm/configs/colibri_imx7_defconfig
+@@ -0,0 +1,387 @@
++CONFIG_KERNEL_LZO=y
++CONFIG_SYSVIPC=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_TASKSTATS=y
++CONFIG_TASK_DELAY_ACCT=y
++CONFIG_TASK_XACCT=y
++CONFIG_TASK_IO_ACCOUNTING=y
++CONFIG_IKCONFIG=y
++CONFIG_IKCONFIG_PROC=y
++CONFIG_LOG_BUF_SHIFT=18
++CONFIG_CGROUPS=y
++CONFIG_CGROUP_SCHED=y
++CONFIG_CGROUP_FREEZER=y
++CONFIG_CGROUP_CPUACCT=y
++CONFIG_CGROUP_DEBUG=y
++CONFIG_NAMESPACES=y
++CONFIG_RELAY=y
++CONFIG_BLK_DEV_INITRD=y
++# CONFIG_RD_BZIP2 is not set
++# CONFIG_RD_LZMA is not set
++# CONFIG_RD_XZ is not set
++CONFIG_KALLSYMS_ALL=y
++CONFIG_EMBEDDED=y
++# CONFIG_SLUB_DEBUG is not set
++# CONFIG_COMPAT_BRK is not set
++CONFIG_MODULES=y
++CONFIG_MODULE_UNLOAD=y
++CONFIG_MODVERSIONS=y
++CONFIG_MODULE_SRCVERSION_ALL=y
++# CONFIG_BLK_DEV_BSG is not set
++CONFIG_ARCH_MXC=y
++CONFIG_SOC_IMX7D=y
++# CONFIG_ARM_ERRATA_643719 is not set
++CONFIG_SMP=y
++# CONFIG_ARM_CPU_TOPOLOGY is not set
++CONFIG_VMSPLIT_2G=y
++CONFIG_ARM_PSCI=y
++CONFIG_PREEMPT_VOLUNTARY=y
++CONFIG_AEABI=y
++CONFIG_CMA=y
++CONFIG_CMDLINE="noinitrd console=ttymxc0,115200"
++CONFIG_CPU_FREQ=y
++CONFIG_CPU_FREQ_DEFAULT_GOV_INTERACTIVE=y
++CONFIG_CPU_FREQ_GOV_POWERSAVE=y
++CONFIG_CPU_FREQ_GOV_USERSPACE=y
++CONFIG_CPU_FREQ_GOV_ONDEMAND=y
++CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
++CONFIG_CPUFREQ_DT=y
++CONFIG_CPU_IDLE=y
++CONFIG_VFP=y
++CONFIG_NEON=y
++CONFIG_KERNEL_MODE_NEON=y
++CONFIG_BINFMT_MISC=y
++CONFIG_NET=y
++CONFIG_PACKET=y
++CONFIG_UNIX=y
++CONFIG_INET=y
++CONFIG_IP_ADVANCED_ROUTER=y
++CONFIG_IP_MULTIPLE_TABLES=y
++CONFIG_IP_PNP=y
++CONFIG_IP_PNP_DHCP=y
++CONFIG_NET_IPGRE_DEMUX=m
++# CONFIG_INET_XFRM_MODE_TRANSPORT is not set
++# CONFIG_INET_XFRM_MODE_TUNNEL is not set
++# CONFIG_INET_XFRM_MODE_BEET is not set
++CONFIG_IPV6_SIT=m
++CONFIG_NETFILTER=y
++CONFIG_BRIDGE_NETFILTER=y
++CONFIG_NF_CONNTRACK=y
++CONFIG_NF_TABLES=y
++CONFIG_NF_TABLES_INET=y
++CONFIG_NFT_MASQ=y
++CONFIG_NFT_NAT=y
++CONFIG_NETFILTER_XT_TARGET_CONNMARK=y
++CONFIG_NETFILTER_XT_MATCH_CONNMARK=y
++CONFIG_NETFILTER_XT_MATCH_NFACCT=y
++CONFIG_NF_CONNTRACK_IPV4=y
++CONFIG_NFT_CHAIN_NAT_IPV4=y
++CONFIG_NFT_MASQ_IPV4=y
++CONFIG_IP_NF_IPTABLES=y
++CONFIG_IP_NF_NAT=y
++CONFIG_IP_NF_TARGET_MASQUERADE=y
++CONFIG_IP6_NF_IPTABLES=y
++CONFIG_NF_TABLES_BRIDGE=y
++CONFIG_L2TP=m
++CONFIG_BRIDGE=y
++# CONFIG_BRIDGE_IGMP_SNOOPING is not set
++CONFIG_BRIDGE_VLAN_FILTERING=y
++CONFIG_VLAN_8021Q=y
++CONFIG_VLAN_8021Q_GVRP=y
++CONFIG_CAN=m
++CONFIG_CAN_FLEXCAN=m
++CONFIG_CAN_MCP251X=m
++CONFIG_BT=m
++CONFIG_BT_RFCOMM=m
++CONFIG_BT_RFCOMM_TTY=y
++CONFIG_BT_BNEP=m
++CONFIG_BT_BNEP_MC_FILTER=y
++CONFIG_BT_BNEP_PROTO_FILTER=y
++CONFIG_BT_HIDP=m
++CONFIG_BT_HCIUART=m
++CONFIG_BT_HCIUART_LL=y
++CONFIG_CFG80211=m
++CONFIG_CFG80211_WEXT=y
++CONFIG_MAC80211=m
++CONFIG_RFKILL=y
++CONFIG_RFKILL_INPUT=y
++CONFIG_DEVTMPFS=y
++CONFIG_DEVTMPFS_MOUNT=y
++# CONFIG_STANDALONE is not set
++CONFIG_DMA_CMA=y
++CONFIG_CMA_SIZE_MBYTES=256
++CONFIG_CMA_SIZE_PERCENTAGE=50
++CONFIG_CMA_SIZE_SEL_MIN=y
++CONFIG_IMX_WEIM=y
++CONFIG_CONNECTOR=y
++CONFIG_MTD=y
++CONFIG_MTD_CMDLINE_PARTS=y
++CONFIG_MTD_JEDECPROBE=y
++CONFIG_MTD_PHYSMAP_OF=y
++CONFIG_MTD_NAND=y
++CONFIG_MTD_NAND_GPMI_NAND=y
++CONFIG_MTD_NAND_MXC=y
++CONFIG_MTD_UBI=y
++CONFIG_MTD_UBI_FASTMAP=y
++CONFIG_BLK_DEV_LOOP=y
++CONFIG_EEPROM_AT24=y
++CONFIG_EEPROM_AT25=y
++CONFIG_SCSI=y
++# CONFIG_SCSI_PROC_FS is not set
++CONFIG_BLK_DEV_SD=y
++CONFIG_SCSI_SCAN_ASYNC=y
++# CONFIG_SCSI_LOWLEVEL is not set
++CONFIG_NETDEVICES=y
++# CONFIG_NET_VENDOR_ARC is not set
++# CONFIG_NET_CADENCE is not set
++# CONFIG_NET_VENDOR_BROADCOM is not set
++# CONFIG_NET_VENDOR_CIRRUS is not set
++# CONFIG_NET_VENDOR_FARADAY is not set
++# CONFIG_NET_VENDOR_HISILICON is not set
++# CONFIG_NET_VENDOR_INTEL is not set
++# CONFIG_NET_VENDOR_MARVELL is not set
++# CONFIG_NET_VENDOR_MICREL is not set
++# CONFIG_NET_VENDOR_NATSEMI is not set
++# CONFIG_NET_VENDOR_QUALCOMM is not set
++# CONFIG_NET_VENDOR_ROCKER is not set
++# CONFIG_NET_VENDOR_SAMSUNG is not set
++# CONFIG_NET_VENDOR_SEEQ is not set
++# CONFIG_NET_VENDOR_SMSC is not set
++# CONFIG_NET_VENDOR_STMICRO is not set
++# CONFIG_NET_VENDOR_VIA is not set
++# CONFIG_NET_VENDOR_WIZNET is not set
++CONFIG_MICREL_PHY=y
++CONFIG_PPP=m
++CONFIG_PPP_DEFLATE=m
++CONFIG_PPP_MPPE=m
++CONFIG_PPTP=m
++CONFIG_PPPOL2TP=m
++CONFIG_PPP_ASYNC=m
++CONFIG_USB_NET_DRIVERS=m
++CONFIG_USB_USBNET=m
++# CONFIG_USB_NET_CDC_NCM is not set
++# CONFIG_USB_NET_NET1080 is not set
++# CONFIG_USB_NET_CDC_SUBSET is not set
++# CONFIG_USB_NET_ZAURUS is not set
++# CONFIG_WLAN is not set
++CONFIG_INPUT_POLLDEV=y
++# CONFIG_INPUT_MOUSEDEV_PSAUX is not set
++CONFIG_INPUT_EVDEV=y
++# CONFIG_KEYBOARD_ATKBD is not set
++CONFIG_KEYBOARD_GPIO=y
++CONFIG_KEYBOARD_IMX=y
++# CONFIG_MOUSE_PS2 is not set
++CONFIG_INPUT_TOUCHSCREEN=y
++CONFIG_TOUCHSCREEN_AD7879=y
++CONFIG_TOUCHSCREEN_AD7879_I2C=y
++CONFIG_TOUCHSCREEN_ATMEL_MXT=m
++CONFIG_TOUCHSCREEN_FUSION_F0710A=m
++# CONFIG_SERIO is not set
++# CONFIG_LEGACY_PTYS is not set
++# CONFIG_DEVKMEM is not set
++CONFIG_SERIAL_IMX=y
++CONFIG_SERIAL_IMX_CONSOLE=y
++# CONFIG_I2C_COMPAT is not set
++CONFIG_I2C_CHARDEV=y
++# CONFIG_I2C_HELPER_AUTO is not set
++CONFIG_I2C_IMX=y
++CONFIG_SPI=y
++CONFIG_SPI_GPIO=y
++CONFIG_SPI_IMX=y
++CONFIG_SPI_SPIDEV=y
++CONFIG_GPIO_SYSFS=y
++CONFIG_POWER_RESET=y
++CONFIG_POWER_RESET_GPIO=y
++CONFIG_POWER_RESET_GPIO_RESTART=y
++CONFIG_POWER_RESET_SYSCON_POWEROFF=y
++CONFIG_POWER_SUPPLY=y
++# CONFIG_MXC_MMA8451 is not set
++CONFIG_THERMAL=y
++CONFIG_CPU_THERMAL=y
++CONFIG_IMX_THERMAL=y
++CONFIG_DEVICE_THERMAL=y
++CONFIG_WATCHDOG=y
++CONFIG_RN5T618_WATCHDOG=y
++CONFIG_IMX2_WDT=y
++CONFIG_MFD_RN5T618=y
++CONFIG_REGULATOR=y
++CONFIG_REGULATOR_FIXED_VOLTAGE=y
++CONFIG_REGULATOR_ANATOP=y
++CONFIG_REGULATOR_RN5T618=y
++CONFIG_MEDIA_SUPPORT=y
++CONFIG_MEDIA_CAMERA_SUPPORT=y
++CONFIG_MEDIA_USB_SUPPORT=y
++CONFIG_USB_VIDEO_CLASS=m
++# CONFIG_USB_GSPCA is not set
++CONFIG_V4L_PLATFORM_DRIVERS=y
++CONFIG_VIDEO_MXC_PXP_V4L2=y
++CONFIG_SOC_CAMERA=y
++CONFIG_V4L_MEM2MEM_DRIVERS=y
++CONFIG_VIDEO_CODA=y
++CONFIG_SOC_CAMERA_OV2640=y
++CONFIG_FB=y
++# CONFIG_FB_MX3 is not set
++CONFIG_FB_MXS=y
++# CONFIG_FB_MXC_EDID is not set
++CONFIG_BACKLIGHT_LCD_SUPPORT=y
++# CONFIG_LCD_CLASS_DEVICE is not set
++CONFIG_BACKLIGHT_CLASS_DEVICE=y
++# CONFIG_BACKLIGHT_GENERIC is not set
++CONFIG_BACKLIGHT_PWM=y
++CONFIG_FRAMEBUFFER_CONSOLE=y
++CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
++CONFIG_LOGO=y
++CONFIG_SOUND=y
++CONFIG_SND=y
++CONFIG_SND_USB_AUDIO=m
++CONFIG_SND_SOC=y
++CONFIG_SND_SOC_FSL_ASRC=y
++CONFIG_SND_SOC_FSL_SAI=y
++CONFIG_SND_SOC_FSL_SPDIF=y
++CONFIG_SND_SOC_IMX_AUDMUX=y
++CONFIG_SND_IMX_SOC=y
++CONFIG_SND_SOC_SGTL5000=y
++CONFIG_SND_SIMPLE_CARD=y
++CONFIG_HIDRAW=y
++CONFIG_HID_MULTITOUCH=m
++CONFIG_USB_HIDDEV=y
++CONFIG_USB=y
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_EHCI_MXC=y
++CONFIG_USB_ACM=m
++CONFIG_USB_WDM=m
++CONFIG_USB_STORAGE=y
++CONFIG_USB_CHIPIDEA=y
++CONFIG_USB_CHIPIDEA_UDC=y
++CONFIG_USB_CHIPIDEA_HOST=y
++CONFIG_USB_SERIAL=y
++CONFIG_USB_SERIAL_CONSOLE=y
++CONFIG_USB_SERIAL_GENERIC=y
++CONFIG_USB_SERIAL_FTDI_SIO=y
++CONFIG_USB_SERIAL_PL2303=y
++CONFIG_USB_SERIAL_OPTION=m
++CONFIG_NOP_USB_XCEIV=y
++CONFIG_USB_MXS_PHY=y
++CONFIG_USB_GADGET=y
++CONFIG_USB_CONFIGFS=m
++CONFIG_USB_CONFIGFS_SERIAL=y
++CONFIG_USB_CONFIGFS_ACM=y
++CONFIG_USB_CONFIGFS_OBEX=y
++CONFIG_USB_CONFIGFS_NCM=y
++CONFIG_USB_CONFIGFS_ECM=y
++CONFIG_USB_CONFIGFS_ECM_SUBSET=y
++CONFIG_USB_CONFIGFS_RNDIS=y
++CONFIG_USB_CONFIGFS_EEM=y
++CONFIG_USB_CONFIGFS_MASS_STORAGE=y
++CONFIG_USB_CONFIGFS_F_LB_SS=y
++CONFIG_USB_CONFIGFS_F_FS=y
++CONFIG_USB_ZERO=m
++CONFIG_USB_ETH=m
++CONFIG_USB_G_NCM=m
++CONFIG_USB_GADGETFS=m
++CONFIG_USB_MASS_STORAGE=m
++CONFIG_USB_G_SERIAL=m
++CONFIG_MMC=y
++CONFIG_MMC_SDHCI=y
++CONFIG_MMC_SDHCI_PLTFM=y
++CONFIG_MMC_SDHCI_ESDHC_IMX=y
++CONFIG_MXC_SIM=y
++CONFIG_NEW_LEDS=y
++CONFIG_LEDS_CLASS=y
++CONFIG_LEDS_GPIO=y
++CONFIG_LEDS_PWM=y
++CONFIG_LEDS_TRIGGERS=y
++CONFIG_LEDS_TRIGGER_TIMER=y
++CONFIG_LEDS_TRIGGER_ONESHOT=y
++CONFIG_LEDS_TRIGGER_HEARTBEAT=y
++CONFIG_LEDS_TRIGGER_BACKLIGHT=y
++CONFIG_LEDS_TRIGGER_GPIO=y
++CONFIG_RTC_CLASS=y
++CONFIG_RTC_DRV_DS1307=y
++CONFIG_RTC_DRV_SNVS=y
++CONFIG_DMADEVICES=y
++CONFIG_IMX_SDMA=y
++CONFIG_MXS_DMA=y
++CONFIG_MXC_PXP_V2=y
++CONFIG_MXC_PXP_V3=y
++# CONFIG_IOMMU_SUPPORT is not set
++CONFIG_EXTCON_USB_GPIO=y
++CONFIG_IIO=y
++CONFIG_IMX7D_ADC=y
++CONFIG_VF610_ADC=y
++CONFIG_PWM=y
++CONFIG_PWM_IMX=y
++CONFIG_EXT4_FS=y
++CONFIG_EXT4_FS_POSIX_ACL=y
++CONFIG_EXT4_FS_SECURITY=y
++CONFIG_QUOTA=y
++CONFIG_QUOTA_NETLINK_INTERFACE=y
++# CONFIG_PRINT_QUOTA_WARNING is not set
++CONFIG_AUTOFS4_FS=y
++CONFIG_FUSE_FS=y
++CONFIG_CUSE=y
++CONFIG_OVERLAY_FS=y
++CONFIG_VFAT_FS=y
++CONFIG_NTFS_FS=y
++CONFIG_NTFS_RW=y
++CONFIG_TMPFS=y
++CONFIG_TMPFS_POSIX_ACL=y
++CONFIG_UBIFS_FS=y
++CONFIG_NFS_FS=y
++CONFIG_NFS_V3_ACL=y
++CONFIG_NFS_V4=y
++CONFIG_NFS_V4_1=y
++CONFIG_NFS_V4_2=y
++CONFIG_ROOT_NFS=y
++CONFIG_CIFS=y
++CONFIG_NLS_DEFAULT="cp437"
++CONFIG_NLS_CODEPAGE_437=y
++CONFIG_NLS_ASCII=y
++CONFIG_NLS_ISO8859_1=y
++CONFIG_NLS_UTF8=y
++CONFIG_PRINTK_TIME=y
++CONFIG_DEBUG_FS=y
++CONFIG_LOCKUP_DETECTOR=y
++CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=10
++# CONFIG_SCHED_DEBUG is not set
++CONFIG_STACKTRACE=y
++# CONFIG_DEBUG_BUGVERBOSE is not set
++# CONFIG_FTRACE is not set
++CONFIG_DEBUG_USER=y
++CONFIG_CORESIGHT=y
++CONFIG_CORESIGHT_LINK_AND_SINK_TMC=y
++CONFIG_CORESIGHT_SINK_TPIU=y
++CONFIG_CORESIGHT_SINK_ETBV10=y
++CONFIG_CORESIGHT_SOURCE_ETM3X=y
++CONFIG_SECURITYFS=y
++CONFIG_CRYPTO_ECDH=y
++CONFIG_CRYPTO_USER=y
++CONFIG_CRYPTO_TEST=m
++CONFIG_CRYPTO_CCM=y
++CONFIG_CRYPTO_GCM=y
++CONFIG_CRYPTO_CBC=y
++CONFIG_CRYPTO_CTS=y
++CONFIG_CRYPTO_LRW=y
++CONFIG_CRYPTO_XTS=y
++CONFIG_CRYPTO_MICHAEL_MIC=y
++CONFIG_CRYPTO_RMD128=y
++CONFIG_CRYPTO_RMD160=y
++CONFIG_CRYPTO_RMD256=y
++CONFIG_CRYPTO_RMD320=y
++CONFIG_CRYPTO_SHA1=y
++CONFIG_CRYPTO_SHA512=y
++CONFIG_CRYPTO_TGR192=y
++CONFIG_CRYPTO_WP512=y
++CONFIG_CRYPTO_BLOWFISH=y
++CONFIG_CRYPTO_CAMELLIA=y
++CONFIG_CRYPTO_TWOFISH=y
++CONFIG_CRYPTO_DEV_FSL_CAAM=y
++CONFIG_CRYPTO_DEV_FSL_CAAM_SM=y
++CONFIG_CRYPTO_DEV_FSL_CAAM_SM_TEST=m
++CONFIG_CRC_CCITT=y
++CONFIG_CRC_T10DIF=y
++CONFIG_CRC_ITU_T=m
++CONFIG_FONTS=y
++CONFIG_FONT_8x8=y
++CONFIG_FONT_8x16=y
+\ No newline at end of file
 diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
 index efb095dbcd71..eec386bc20d2 100644
 --- a/sound/soc/codecs/Kconfig
@@ -203,14 +597,16 @@ index 7ae7c85e8219..972f15a7b0a8 100644
  obj-$(CONFIG_SND_SOC_MT6351)	+= snd-soc-mt6351.o
 diff --git a/sound/soc/codecs/mp.c b/sound/soc/codecs/mp.c
 new file mode 100644
-index 000000000000..f6ae0702ce7c
+index 000000000000..2d00076067cd
 --- /dev/null
 +++ b/sound/soc/codecs/mp.c
-@@ -0,0 +1,700 @@
+@@ -0,0 +1,614 @@
 +/*
-+ * mp.c - Musica Pristina ALSA SoC codec driver
++ * mp.c -- Musica Pristina ALSA SoC codec driver
 + *
-+ * Copyright 2018 Welsh Technologies.
++ * Copyright 2019 Welsh Technologies.
++ * 
++ * Author: Kevin Welsh <kwelsh@welshtechnologies.com>
 + *
 + * This program is free software; you can redistribute it and/or modify
 + * it under the terms of the GNU General Public License version 2 as
@@ -222,12 +618,12 @@ index 000000000000..f6ae0702ce7c
 +#include <linux/i2c.h>
 +#include <linux/regmap.h>
 +#include <linux/of_device.h>
++#include <linux/kernel.h>
 +#include <sound/core.h>
 +#include <sound/pcm.h>
 +#include <sound/pcm_params.h>
 +#include <sound/soc.h>
 +#include "mp.h"
-+
 +
 +static int ocxo = 1;
 +module_param(ocxo, int, 0644);
@@ -239,7 +635,7 @@ index 000000000000..f6ae0702ce7c
 +
 +/* custom function to fetch info of PCM playback volume */
 +static int dac_info_volsw(struct snd_kcontrol *kcontrol,
-+						  struct snd_ctl_elem_info *uinfo)
++			  struct snd_ctl_elem_info *uinfo)
 +{
 +	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
 +	uinfo->count = 2;
@@ -252,7 +648,7 @@ index 000000000000..f6ae0702ce7c
 + * custom function to get PCM playback volume
 + */
 +static int dac_get_volsw(struct snd_kcontrol *kcontrol,
-+						 struct snd_ctl_elem_value *ucontrol)
++			 struct snd_ctl_elem_value *ucontrol)
 +{
 +	int l;
 +	int r;
@@ -270,7 +666,7 @@ index 000000000000..f6ae0702ce7c
 + * custom function to put PCM playback volume
 + */
 +static int dac_put_volsw(struct snd_kcontrol *kcontrol,
-+						 struct snd_ctl_elem_value *ucontrol)
++			 struct snd_ctl_elem_value *ucontrol)
 +{
 +	int l;
 +	int r;
@@ -281,26 +677,46 @@ index 000000000000..f6ae0702ce7c
 +	return 0;
 +}
 +
-+static const struct snd_kcontrol_new mp_snd_controls[] = {
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "PCM Playback Volume",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+		.info = dac_info_volsw,
-+		.get = dac_get_volsw,
-+		.put = dac_put_volsw,
-+	},
++static int mp2019_dai_trigger(struct snd_pcm_substream *substream, int cmd,
++			  struct snd_soc_dai *dai)
++{
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_START:
++	case SNDRV_PCM_TRIGGER_RESUME:
++	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
++		dev_dbg(dai->dev, "Starting audio stream\n");
++		break;
++	case SNDRV_PCM_TRIGGER_STOP:
++	case SNDRV_PCM_TRIGGER_SUSPEND:
++	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
++		dev_dbg(dai->dev, "Stopping audio stream\n");
++		break;
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static const unsigned int mp2019_rates[] = {
++	44100,  48000,  88200,  96000,  176400,
++	192000, 352800, 384000, 705600, 768000,
 +};
 +
-+/* set codec format */
-+static int mp_set_dai_fmt(struct snd_soc_dai *codec_dai, unsigned int fmt)
++static const struct snd_pcm_hw_constraint_list mp2019_rate_constraints = {
++	.count = ARRAY_SIZE(mp2019_rates),
++	.list = mp2019_rates,
++};
++
++
++
++static int mp2019_set_dai_fmt(struct snd_soc_dai *dai, unsigned int fmt)
 +{
-+	struct snd_soc_codec *codec = codec_dai->codec;
-+	struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
++	struct snd_soc_component *component = dai->component;
++	struct mp2019_codec_priv *mp = snd_soc_component_get_drvdata(component);
 +
 +	/* I2S clock and frame master setting. */
-+	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK)
-+	{
++	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
 +	case SND_SOC_DAIFMT_CBM_CFM:
 +		break;
 +	default:
@@ -308,8 +724,7 @@ index 000000000000..f6ae0702ce7c
 +	}
 +
 +	/* setting I2S data format */
-+	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK)
-+	{
++	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
 +	case SND_SOC_DAIFMT_I2S:
 +		break;
 +	default:
@@ -320,16 +735,19 @@ index 000000000000..f6ae0702ce7c
 +	return 0;
 +}
 +
-+/*
-+ * set clock according to i2s frame clock.
-+ */
-+static int mp_set_clock(struct snd_soc_codec *codec, int frame_rate,
-+						int frame_width)
++static int mp2019_hw_params(struct snd_pcm_substream *substream,
++			    struct snd_pcm_hw_params *params,
++			    struct snd_soc_dai *dai)
 +{
-+	dev_warn(codec->dev, "BEGIN mp_set_clock");
++	int frame_rate, frame_width;
++	struct snd_soc_component *component = dai->component;
 +
-+	switch (frame_rate)
-+	{
++	frame_rate = params_rate(params);
++	frame_width = params_width(params);
++	
++	dev_warn(component->dev, "BEGIN mp2019_set_clock");
++
++	switch (frame_rate) {
 +	case 44100:
 +	case 48000:
 +	case 88200:
@@ -339,384 +757,269 @@ index 000000000000..f6ae0702ce7c
 +	case 352800:
 +	case 384000:
 +		break;
-+		/*
-+#if defined(CONFIG_SND_SOC_MPCODEC_MAXRATE_768)
-+#endif
-+*/
-+
 +	case 705600:
 +	case 768000:
-+		if (maxrate == 768)
-+		{
++		if (maxrate == 768) {
 +			break;
-+		}
-+		else
-+		{
-+			dev_err(codec->dev, "frame rate %d not supported\n",
-+					frame_rate);
++		} else {
++			dev_err(component->dev, "frame rate %d not supported\n",
++				frame_rate);
 +			return -EINVAL;
 +		}
 +	default:
-+		dev_err(codec->dev, "frame rate %d not supported\n",
-+				frame_rate);
++		dev_err(component->dev, "frame rate %d not supported\n",
++			frame_rate);
 +		return -EINVAL;
 +	}
-+	switch (frame_width)
-+	{
++	switch (frame_width) {
 +	case 16:
 +	case 24:
 +	case 32:
 +		break;
 +	default:
-+		dev_err(codec->dev, "%d-bit frame width not supported\n", frame_width);
++		dev_err(component->dev, "%d-bit frame width not supported\n",
++			frame_width);
 +		return -EINVAL;
 +	}
-+	/*
-+#if defined(CONFIG_SND_SOC_MPCODEC_XTAL_OCXO)
-+	dev_warn(codec->dev, "    CONFIG_SND_SOC_MPCODEC_XTAL_OCXO");
-+	return update_playback_OCXO(codec, frame_rate, frame_width);
-+#elif defined(CONFIG_SND_SOC_MPCODEC_XTAL_DFXO)
-+	dev_warn(codec->dev, "    CONFIG_SND_SOC_MPCODEC_XTAL_DFXO");
-+	return update_playback_DFXO(codec, frame_rate, frame_width);
-+#endif
-+*/
-+	if (ocxo == 1)
-+	{
++	if (ocxo == 1) {
 +		/* OCXO crystal strategy */
-+		dev_warn(codec->dev, "    CONFIG_SND_SOC_MPCODEC_XTAL_OCXO");
-+		return update_playback_OCXO(codec, frame_rate, frame_width);
-+	}
-+	else
-+	{
++		dev_warn(component->dev,
++			 "    CONFIG_SND_SOC_MPCODEC_XTAL_OCXO");
++		return update_playback_OCXO(dai, frame_rate, frame_width);
++	} else {
 +		/* Dual Frequency XO crystal strategy */
-+		dev_warn(codec->dev, "    CONFIG_SND_SOC_MPCODEC_XTAL_DFXO");
-+		return update_playback_DFXO(codec, frame_rate, frame_width);
++		dev_warn(component->dev,
++			 "    CONFIG_SND_SOC_MPCODEC_XTAL_DFXO");
++		return update_playback_DFXO(dai, frame_rate, frame_width);
 +	}
 +
-+	dev_warn(codec->dev, "END mp_set_clock");
++	dev_warn(component->dev, "END mp2019_set_clock");
 +	return 0;
 +}
 +
-+/*
-+ * Set PCM DAI params.
-+ */
-+static int mp_pcm_hw_params(struct snd_pcm_substream *substream,
-+							struct snd_pcm_hw_params *params,
-+							struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_codec *codec = dai->codec;
-+	int ret;
-+
-+	ret = mp_set_clock(codec, params_rate(params), params_width(params));
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int mp_dai_trigger(struct snd_pcm_substream *substream, int cmd,
-+						  struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_codec *codec = dai->codec;
-+
-+	switch (cmd)
-+	{
-+	case SNDRV_PCM_TRIGGER_START:
-+	case SNDRV_PCM_TRIGGER_RESUME:
-+	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-+		dev_dbg(codec->dev, "Starting audio stream\n");
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-+		dev_dbg(codec->dev, "Stopping audio stream\n");
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+/*
-+#if defined(CONFIG_SND_SOC_MPCODEC_MAXRATE_384)
-+static const unsigned int mp_rates[] = {
-+	44100,
-+	48000,
-+	88200,
-+	96000,
-+	176400,
-+	192000,
-+	352800,
-+	384000,
-+};
-+#elif defined(CONFIG_SND_SOC_MPCODEC_MAXRATE_768)
-+static const unsigned int mp_rates[] = {
-+	44100,
-+	48000,
-+	88200,
-+	96000,
-+	176400,
-+	192000,
-+	352800,
-+	384000,
-+	705600,
-+	768000,
-+};
-+#endif
-+*/
-+/*
-+#if (maxrate==768)
-+*/
-+static const unsigned int mp_rates[] = {
-+	44100,
-+	48000,
-+	88200,
-+	96000,
-+	176400,
-+	192000,
-+	352800,
-+	384000,
-+	705600,
-+	768000,
-+};
-+/*#elif (maxrate!=768)
-+static const unsigned int mp_rates[] = {
-+	44100,
-+	48000,
-+	88200,
-+	96000,
-+	176400,
-+	192000,
-+	352800,
-+	384000,
-+};
-+#endif
-+*/
-+
-+#define MP_CODEC_FORMATS (SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE)
-+// remove to force 24 / 32 bit conversion
-+//SNDRV_PCM_FMTBIT_S16_LE | \
-+
-+
-+#define MP_CODEC_RATES (SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |   \
-+						SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000 |   \
-+						SNDRV_PCM_RATE_176400 | SNDRV_PCM_RATE_192000 | \
-+						SNDRV_PCM_RATE_352000 | SNDRV_PCM_RATE_384000 | \
-+						SNDRV_PCM_RATE_705600 | SNDRV_PCM_RATE_768000)
-+
-+static const struct snd_pcm_hw_constraint_list mp_rate_constraints = {
-+	.count = ARRAY_SIZE(mp_rates),
-+	.list = mp_rates,
-+};
-+
-+static int mp_codec_startup(struct snd_pcm_substream *substream,
-+							struct snd_soc_dai *dai)
++static int mp2019_codec_startup(struct snd_pcm_substream *substream,
++			    struct snd_soc_dai *dai)
 +{
 +	int ret;
 +
 +	ret = snd_pcm_hw_constraint_list(substream->runtime, 0,
-+									 SNDRV_PCM_HW_PARAM_RATE, &mp_rate_constraints);
++					 SNDRV_PCM_HW_PARAM_RATE,
++					 &mp2019_rate_constraints);
 +
 +	return ret;
 +}
 +
-+static const struct snd_soc_dai_ops mp_codec_ops = {
-+	.startup = mp_codec_startup,
-+	.hw_params = mp_pcm_hw_params,
-+	.set_fmt = mp_set_dai_fmt,
-+	.trigger = mp_dai_trigger,
++
++static const struct regmap_config mp2019_lcd_regmap_config = {
++	.reg_bits = 16,
++	.val_bits = 24,
++	.max_register = 0xFFFF,
++	.cache_type = REGCACHE_RBTREE,
++};
++EXPORT_SYMBOL_GPL(mp2019_lcd_regmap_config);
++
++static const struct regmap_config mp2019_clock_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = 0xFF,
++	.cache_type = REGCACHE_RBTREE,
++};
++EXPORT_SYMBOL_GPL(mp2019_clock_regmap_config);
++
++static const struct regmap_config mp2019_oscsel_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = 0xFF,
++	.cache_type = REGCACHE_RBTREE,
++};
++EXPORT_SYMBOL_GPL(mp2019_oscsel_regmap_config);
++
++static const struct snd_soc_dai_ops mp2019_dai_ops = {
++	.startup = mp2019_codec_startup,
++	.hw_params = mp2019_hw_params,
++	.set_fmt = mp2019_set_dai_fmt,
++	.trigger = mp2019_dai_trigger,
 +};
 +
-+static struct snd_soc_dai_driver mp_dai = {
-+	/*
-+#if defined(CONFIG_SND_SOC_MPCODEC_MAXRATE_384)
-+#if defined(CONFIG_SND_SOC_MPCODEC_XTAL_OCXO)
-+	.name = "Musica Pristina 384 OCXO",
-+#elif defined(CONFIG_SND_SOC_MPCODEC_MAXRATE_768)
-+	.name = "Musica Pristina 384 DFXO",
-+#endif
-+#elif defined(CONFIG_SND_SOC_MPCODEC_MAXRATE_768)
-+#if defined(CONFIG_SND_SOC_MPCODEC_XTAL_OCXO)
-+	.name = "Musica Pristina 768 OCXO",
-+#elif defined(CONFIG_SND_SOC_MPCODEC_MAXRATE_768)
-+	.name = "Musica Pristina 768 DFXO",
-+#endif
-+#endif
-+*/
++static const struct snd_kcontrol_new mp2019_controls[] = {
++	{
++		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
++		.name = "PCM Playback Volume",
++		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
++		.info = dac_info_volsw,
++		.get = dac_get_volsw,
++		.put = dac_put_volsw,
++	},
++};
++
++static struct snd_soc_dai_driver mp2019_dai = {
 +	.name = "Musica Pristina",
-+	.playback = {
-+		.stream_name = "Playback",
-+		.channels_min = 2,
-+		.channels_max = 2,
-+		.rates = SNDRV_PCM_RATE_KNOT,
-+		.formats = MP_CODEC_FORMATS,
-+	},
-+	.ops = &mp_codec_ops,
++	.playback =
++		{
++			.stream_name = "Playback",
++			.channels_min = 2,
++			.channels_max = 2,
++			.rates = SNDRV_PCM_RATE_KNOT,
++			.formats = MP2019_FORMATS,
++		},
++	.ops = &mp2019_dai_ops,
 +};
 +
-+static int mp_codec_probe(struct snd_soc_codec *codec)
++
++/*
++int mp2019_common_init(struct device *dev, struct regmap *regmap)
++{
++	struct mp2019_private *mp2019;
++
++	mp2019 = devm_kzalloc(dev, sizeof(struct mp2019_private), GFP_KERNEL);
++	if (!mp2019)
++		return -ENOMEM;
++
++	mp2019->regmap = regmap;
++	dev_set_drvdata(dev, mp2019);
++
++	return devm_snd_soc_register_component(dev, &soc_component_dev_mp2019,
++					       &mp2019_dai, 1);
++}
++EXPORT_SYMBOL_GPL(mp2019_common_init);
++*/
++
++
++
++static int mp2019_codec_probe(struct snd_soc_component *component)
 +{
 +	return 0;
 +}
 +
-+static int mp_codec_remove(struct snd_soc_codec *codec)
++static void mp2019_codec_remove(struct snd_soc_component *component)
 +{
-+	return 0;
 +}
 +
-+static struct snd_soc_codec_driver mp_codec_driver = {
-+	.probe = mp_codec_probe,
-+	.remove = mp_codec_remove,
-+	.component_driver = {
-+		.controls = mp_snd_controls,
-+		.num_controls = ARRAY_SIZE(mp_snd_controls),
-+	},
++static const struct snd_soc_component_driver soc_component_dev_mp2019 = {
++	.probe = mp2019_codec_probe,
++	.remove = mp2019_codec_remove,
++	.controls = mp2019_controls,
++	.num_controls = ARRAY_SIZE(mp2019_controls),
++	.idle_bias_on = 1,
++	.use_pmdown_time = 1,
++	.endianness = 1,
++	.non_legacy_dai_naming = 1,
 +};
++
 +
 +/* LCD DRIVER */
 +
-+static const struct regmap_config mp_lcd_regmap = {
-+	.reg_bits = 16,
-+	.val_bits = 24,
-+
-+	.max_register = 0xFFFF,
-+
-+	.cache_type = REGCACHE_RBTREE,
-+};
-+
-+static int mp_lcd_i2c_probe(struct i2c_client *client,
-+							const struct i2c_device_id *id)
++static int mp2019_lcd_i2c_probe(struct i2c_client *i2c,
++			    const struct i2c_device_id *id)
 +{
 +	struct device_node *clkgen_np;
 +	struct i2c_client *clkgen_client;
-+	struct mp_codec_priv *mp;
++	struct mp2019_codec_priv *mp;
 +	int ret;
 +
-+	dev_warn(&client->dev, "BEGIN mp_lcd_i2c_probe");
++	dev_warn(&i2c->dev, "BEGIN mp2019_lcd_i2c_probe");
 +
-+	clkgen_np = of_parse_phandle(client->dev.of_node, "mp,clkgen", 0);
-+	if (!clkgen_np)
-+	{
-+		dev_err(&client->dev, "Failed to get clock generator phandle\n");
++	clkgen_np = of_parse_phandle(i2c->dev.of_node, "mp,clkgen", 0);
++	if (!clkgen_np) {
++		dev_err(&i2c->dev,
++			"Failed to get clock generator phandle\n");
 +		return -ENODEV;
 +	}
 +	clkgen_client = of_find_i2c_device_by_node(clkgen_np);
 +	of_node_put(clkgen_np);
-+	if (!clkgen_client)
-+	{
-+		dev_dbg(&client->dev, "Clock generator I2C client not found\n");
++	if (!clkgen_client) {
++		dev_dbg(&i2c->dev, "Clock generator I2C client not found\n");
 +		return -EPROBE_DEFER;
 +	}
 +	mp = i2c_get_clientdata(clkgen_client);
 +	put_device(&clkgen_client->dev);
-+	mp->lcd_regmap = devm_regmap_init_i2c(client, &mp_lcd_regmap);
-+	if (IS_ERR(mp->lcd_regmap))
-+	{
++	mp->lcd_regmap = devm_regmap_init_i2c(i2c, &mp2019_lcd_regmap_config);
++	if (IS_ERR(mp->lcd_regmap)) {
 +		ret = PTR_ERR(mp->lcd_regmap);
-+		dev_err(&client->dev,
-+				"Failed to allocate lcd regmap: %d\n", ret);
++		dev_err(&i2c->dev, "Failed to allocate lcd regmap: %d\n",
++			ret);
 +		return ret;
 +	}
 +
-+	i2c_set_clientdata(client, mp);
++	i2c_set_clientdata(i2c, mp);
 +
-+	dev_warn(&client->dev, "END mp_lcd_i2c_probe");
++	dev_warn(&i2c->dev, "END mp2019_lcd_i2c_probe");
 +
 +	return 0;
 +}
 +
-+static int mp_lcd_i2c_remove(struct i2c_client *client)
++static int mp2019_lcd_i2c_remove(struct i2c_client *i2c)
 +{
 +	return 0;
 +}
 +
-+static const struct i2c_device_id mp_lcd_id[] = {
-+	{"mp_lcd", 0},
-+	{},
++static const struct i2c_device_id mp2019_lcd_id[] = {
++	{ "mp2019_lcd", 0 },
++	{ },
 +};
 +
-+MODULE_DEVICE_TABLE(i2c, mp_lcd_id);
++MODULE_DEVICE_TABLE(i2c, mp2019_lcd_id);
 +
-+static const struct of_device_id mp_lcd_dt_ids[] = {
++static const struct of_device_id mp2019_lcd_dt_ids[] = {
 +	{
 +		.compatible = "mp,codec-lcd",
 +	},
-+	{/* sentinel */}};
-+MODULE_DEVICE_TABLE(of, mp_lcd_dt_ids);
++	{ }
++};
++MODULE_DEVICE_TABLE(of, mp2019_lcd_dt_ids);
 +
-+static struct i2c_driver mp_lcd_i2c_driver = {
-+	.driver = {
-+		.name = "mp_lcd",
-+		.of_match_table = mp_lcd_dt_ids,
-+	},
-+	.probe = mp_lcd_i2c_probe,
-+	.remove = mp_lcd_i2c_remove,
-+	.id_table = mp_lcd_id,
++static struct i2c_driver mp2019_lcd_i2c_driver = {
++	.driver =
++		{
++			.name = "mp2019_lcd",
++			.of_match_table = mp2019_lcd_dt_ids,
++		},
++	.probe = mp2019_lcd_i2c_probe,
++	.remove = mp2019_lcd_i2c_remove,
++	.id_table = mp2019_lcd_id,
 +};
 +
 +/* END LCD DRIVER */
 +
-+static const struct regmap_config mp_codec_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+
-+	.max_register = 0xFF,
-+
-+	.cache_type = REGCACHE_RBTREE,
-+};
-+
-+static const struct regmap_config mp_oscsel_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+
-+	.max_register = 0xFF,
-+
-+	.cache_type = REGCACHE_RBTREE,
-+};
-+
-+static int mp_oscsel_i2c_probe(struct i2c_client *client,
-+							   const struct i2c_device_id *id)
++/* mp2019 I2C */
++static int mp2019_oscsel_i2c_probe(struct i2c_client *i2c,
++			       const struct i2c_device_id *id)
 +{
 +	struct device_node *clkgen_np;
 +	struct i2c_client *clkgen_client;
-+	struct mp_codec_priv *mp;
++	struct mp2019_codec_priv *mp;
 +	int ret;
 +	int i;
-+	char name[80];
-+	char *strategy;
-+	char *rate;
 +
-+	dev_warn(&client->dev, "BEGIN mp_oscsel_i2c_probe");
++	dev_warn(&i2c->dev, "BEGIN mp2019_oscsel_i2c_probe");
 +
-+	clkgen_np = of_parse_phandle(client->dev.of_node, "mp,clkgen", 0);
-+	if (!clkgen_np)
-+	{
-+		dev_err(&client->dev, "Failed to get clock generator phandle\n");
++	clkgen_np = of_parse_phandle(i2c->dev.of_node, "mp,clkgen", 0);
++	if (!clkgen_np) {
++		dev_err(&i2c->dev,
++			"Failed to get clock generator phandle\n");
 +		return -ENODEV;
 +	}
 +	clkgen_client = of_find_i2c_device_by_node(clkgen_np);
 +	of_node_put(clkgen_np);
-+	if (!clkgen_client)
-+	{
-+		dev_dbg(&client->dev, "Clock generator I2C client not found\n");
++	if (!clkgen_client) {
++		dev_dbg(&i2c->dev, "Clock generator I2C client not found\n");
 +		return -EPROBE_DEFER;
 +	}
 +	mp = i2c_get_clientdata(clkgen_client);
 +	put_device(&clkgen_client->dev);
-+	mp->oscsel_regmap = devm_regmap_init_i2c(client, &mp_oscsel_regmap);
-+	if (IS_ERR(mp->oscsel_regmap))
-+	{
++	mp->oscsel_regmap = devm_regmap_init_i2c(i2c, &mp2019_oscsel_regmap_config);
++	if (IS_ERR(mp->oscsel_regmap)) {
 +		ret = PTR_ERR(mp->oscsel_regmap);
-+		dev_err(&client->dev,
-+				"Failed to allocate oscillator selector regmap: %d\n", ret);
++		dev_err(&i2c->dev,
++			"Failed to allocate oscillator selector regmap: %d\n",
++			ret);
 +		return ret;
 +	}
-+	dev_warn(&client->dev, "    BEGIN i2c_set_clientdata(client, mp);");
-+	i2c_set_clientdata(client, mp);
-+	dev_warn(&client->dev, "    BEGIN i2c_set_clientdata(client, mp);");
++	dev_warn(&i2c->dev, "    BEGIN i2c_set_clientdata(client, mp);");
++	i2c_set_clientdata(i2c, mp);
++	dev_warn(&i2c->dev, "    BEGIN i2c_set_clientdata(client, mp);");
 +
-+	dev_warn(&client->dev, "BEGIN snd_soc_register_codec");
-+
++	dev_warn(&i2c->dev, "BEGIN snd_soc_register_codec");
 +
 +	/*
 +	if(maxrate == 768) {
@@ -737,191 +1040,215 @@ index 000000000000..f6ae0702ce7c
 +	}
 +
 +	dev_warn(&client->dev, "    STRATEGY: %s", strategy);
-+	snprintf(mp_dai.name, sizeof(mp_dai.name), "%s %d %s", mp_dai.name, maxrate, strategy);
-+	dev_warn(&client->dev, "*** and the name is: %s", mp_dai.name);
++	snprintf(mp2019_dai.name, sizeof(mp2019_dai.name), "%s %d %s", mp2019_dai.name, maxrate, strategy);
++	dev_warn(&client->dev, "*** and the name is: %s", mp2019_dai.name);
 +
++
++	ret = snd_soc_register_codec(&clkgen_client->dev, &mp2019_codec_driver,
++	 			     &mp2019_dai, 1);
 +	*/
 +
-+	ret = snd_soc_register_codec(&clkgen_client->dev, &mp_codec_driver, &mp_dai, 1);
++	ret = devm_snd_soc_register_component(&i2c->dev,
++			&soc_component_dev_mp2019, &mp2019_dai, 1);
++	
 +
-+	dev_warn(&client->dev, "END snd_soc_register_codec");
++		dev_warn(&i2c->dev, "END snd_soc_register_codec");
 +	if (ret)
 +		return ret;
 +
-+	dev_warn(&client->dev, "    BEGIN default OSCSEL regs");
++	dev_warn(&i2c->dev, "    BEGIN default OSCSEL regs");
 +
-+	for (i = 0; i < ARRAY_SIZE(mp_oscsel_reg_defaults); i++)
-+	{
-+		regmap_write(mp->oscsel_regmap, mp_oscsel_reg_defaults[i].reg,
-+					 mp_oscsel_reg_defaults[i].def);
++	for (i = 0; i < ARRAY_SIZE(mp2019_oscsel_reg_defaults); i++) {
++		regmap_write(mp->oscsel_regmap, mp2019_oscsel_reg_defaults[i].reg,
++			     mp2019_oscsel_reg_defaults[i].def);
 +	}
 +
-+	dev_warn(&client->dev, "    END default OSCSEL regs");
-+	dev_warn(&client->dev, "    BEGIN default CLKGEN regs");
++	dev_warn(&i2c->dev, "    END default OSCSEL regs");
++	dev_warn(&i2c->dev, "    BEGIN default CLKGEN regs");
 +
-+	for (i = 0; i < ARRAY_SIZE(mp_codec_reg_defaults); i++)
-+	{
-+
-+		clkgen_regmap_write(mp->clkgen_regmap, mp_codec_reg_defaults[i].reg,
-+							mp_codec_reg_defaults[i].def);
++	for (i = 0; i < ARRAY_SIZE(mp2019_codec_reg_defaults); i++) {
++		clkgen_regmap_write(mp->clkgen_regmap,
++				    mp2019_codec_reg_defaults[i].reg,
++				    mp2019_codec_reg_defaults[i].def);
 +	}
 +
-+	dev_warn(&client->dev, "    END default CLKGEN regs");
++	dev_warn(&i2c->dev, "    END default CLKGEN regs");
 +
-+	dev_warn(&client->dev, "END mp_oscsel_i2c_probe");
++	dev_warn(&i2c->dev, "END mp2019_oscsel_i2c_probe");
 +
 +	return 0;
 +}
 +
-+static int mp_oscsel_i2c_remove(struct i2c_client *client)
++static int mp2019_oscsel_i2c_remove(struct i2c_client *i2c)
 +{
-+	snd_soc_unregister_codec(&client->dev);
-+
++	snd_soc_unregister_component(&i2c->dev);
 +	return 0;
 +}
 +
-+static const struct i2c_device_id mp_oscsel_id[] = {
-+	{"mp_oscsel", 0},
++static const struct i2c_device_id mp2019_oscsel_id[] = {
++	{ "mp2019_oscsel", 0 },
 +	{},
 +};
++MODULE_DEVICE_TABLE(i2c, mp2019_oscsel_id);
 +
-+MODULE_DEVICE_TABLE(i2c, mp_oscsel_id);
-+
-+static const struct of_device_id mp_oscsel_dt_ids[] = {
++static const struct of_device_id mp2019_oscsel_dt_ids[] = {
 +	{
 +		.compatible = "mp,codec-oscsel",
 +	},
-+	{/* sentinel */}};
-+MODULE_DEVICE_TABLE(of, mp_oscsel_dt_ids);
-+
-+static struct i2c_driver mp_oscsel_i2c_driver = {
-+	.driver = {
-+		.name = "mp_oscsel",
-+		.of_match_table = mp_oscsel_dt_ids,
-+	},
-+	.probe = mp_oscsel_i2c_probe,
-+	.remove = mp_oscsel_i2c_remove,
-+	.id_table = mp_oscsel_id,
++	{ /* sentinel */ }
 +};
++MODULE_DEVICE_TABLE(of, mp2019_oscsel_dt_ids);
 +
-+static int mp_i2c_probe(struct i2c_client *client,
-+						const struct i2c_device_id *id)
++static struct i2c_driver mp2019_oscsel_i2c_driver = {
++	.driver =
++		{
++			.name = "mp2019_oscsel",
++			.of_match_table = mp2019_oscsel_dt_ids,
++		},
++	.probe = mp2019_oscsel_i2c_probe,
++	.remove = mp2019_oscsel_i2c_remove,
++	.id_table = mp2019_oscsel_id,
++};
++/* end mp2019_oscel I2C */
++
++
++
++
++
++
++
++
++
++
++
++/* mp2019 I2C */
++static const struct of_device_id mp2019_of_match[] = {
++	{
++		.compatible = "mp,mp-clkgen",
++	},
++	{}
++};
++MODULE_DEVICE_TABLE(of, mp2019_of_match);
++
++static int mp2019_i2c_probe(struct i2c_client *client,
++			const struct i2c_device_id *id)
 +{
-+	struct mp_codec_priv *mp;
++	struct mp2019_codec_priv *mp;
 +	int ret;
 +
-+	dev_warn(&client->dev, "BEGIN mp_i2c_probe");
++	dev_warn(&client->dev, "BEGIN mp2019_i2c_probe");
 +
 +	mp = devm_kzalloc(&client->dev, sizeof(*mp), GFP_KERNEL);
 +	if (!mp)
 +		return -ENOMEM;
 +
-+	// defaults
 +	mp->current_clock = 0;
 +	mp->current_regmap = 0;
-+
 +
 +	dev_warn(&client->dev, "  PRE i2c_set_clientdata");
 +	i2c_set_clientdata(client, mp);
 +
 +	dev_warn(&client->dev, "  PRE devm_regmap_init_i2c");
-+	mp->clkgen_regmap = devm_regmap_init_i2c(client, &mp_codec_regmap);
-+	if (IS_ERR(mp->clkgen_regmap))
-+	{
++	mp->clkgen_regmap = devm_regmap_init_i2c(client, &mp2019_clock_regmap_config);
++	if (IS_ERR(mp->clkgen_regmap)) {
 +		ret = PTR_ERR(mp->clkgen_regmap);
 +		dev_err(&client->dev, "Failed to allocate regmap: %d\n", ret);
 +		return ret;
 +	}
 +
-+	dev_warn(&client->dev, "END mp_i2c_probe");
++	dev_warn(&client->dev, "END mp2019_i2c_probe");
 +
 +	return 0;
 +}
 +
-+static int mp_i2c_remove(struct i2c_client *client)
++static int mp2019_i2c_remove(struct i2c_client *client)
 +{
 +	return 0;
 +}
 +
-+static const struct i2c_device_id mp_codec_id[] = {
-+	{"mp_clkgen", 0},
++static const struct i2c_device_id mp2019_codec_id[] = {
++	{ "mp2019", 0 },
 +	{},
 +};
++MODULE_DEVICE_TABLE(i2c, mp2019_codec_id);
 +
-+MODULE_DEVICE_TABLE(i2c, mp_codec_id);
-+
-+static const struct of_device_id mp_codec_dt_ids[] = {
-+	{
-+		.compatible = "mp,codec-clkgen",
-+	},
-+	{/* sentinel */}};
-+MODULE_DEVICE_TABLE(of, mp_codec_dt_ids);
-+
-+static struct i2c_driver mp_i2c_driver = {
-+	.driver = {
-+		.name = "mp_clkgen",
-+		.of_match_table = mp_codec_dt_ids,
-+	},
-+	.probe = mp_i2c_probe,
-+	.remove = mp_i2c_remove,
-+	.id_table = mp_codec_id,
++static struct i2c_driver mp2019_i2c_driver = {
++	.driver =
++		{
++			.name = "mp2019",
++			.of_match_table = mp2019_of_match,
++		},
++	.probe = mp2019_i2c_probe,
++	.remove = mp2019_i2c_remove,
++	.id_table = mp2019_codec_id,
 +};
 +
-+static int __init mp_codec_init(void)
++static int __init mp2019_codec_init(void)
 +{
 +	int ret;
 +
-+	ret = i2c_add_driver(&mp_i2c_driver);
-+	if (ret)
-+	{
++	ret = i2c_add_driver(&mp2019_i2c_driver);
++	if (ret) {
 +		return ret;
 +	}
-+	ret = i2c_add_driver(&mp_oscsel_i2c_driver);
-+	if (ret)
-+	{
-+		i2c_del_driver(&mp_i2c_driver);
++	ret = i2c_add_driver(&mp2019_oscsel_i2c_driver);
++	if (ret) {
++		i2c_del_driver(&mp2019_i2c_driver);
 +	}
-+	ret = i2c_add_driver(&mp_lcd_i2c_driver);
-+	if (ret)
-+	{
-+		i2c_del_driver(&mp_oscsel_i2c_driver);
-+		i2c_del_driver(&mp_i2c_driver);
++	ret = i2c_add_driver(&mp2019_lcd_i2c_driver);
++	if (ret) {
++		i2c_del_driver(&mp2019_oscsel_i2c_driver);
++		i2c_del_driver(&mp2019_i2c_driver);
 +	}
 +	return ret;
 +}
++module_init(mp2019_codec_init);
 +
-+module_init(mp_codec_init);
-+
-+static void __exit mp_codec_exit(void)
++static void __exit mp2019_codec_exit(void)
 +{
-+	i2c_del_driver(&mp_lcd_i2c_driver);
-+	i2c_del_driver(&mp_oscsel_i2c_driver);
-+	i2c_del_driver(&mp_i2c_driver);
++	i2c_del_driver(&mp2019_lcd_i2c_driver);
++	i2c_del_driver(&mp2019_oscsel_i2c_driver);
++	i2c_del_driver(&mp2019_i2c_driver);
 +}
++module_exit(mp2019_codec_exit);
 +
-+module_exit(mp_codec_exit);
-+
-+
-+
-+MODULE_DESCRIPTION("Musica Pristina ALSA SoC codec driver");
-+MODULE_AUTHOR("Francesco Lavra <francescolavra.fl@gmail.com>");
++MODULE_DESCRIPTION("ASoC MP2019 Musica Pristina driver");
 +MODULE_AUTHOR("Kevin Welsh <kwelsh@welshtechnologies.com>");
 +MODULE_LICENSE("GPL");
+\ No newline at end of file
 diff --git a/sound/soc/codecs/mp.h b/sound/soc/codecs/mp.h
 new file mode 100644
-index 000000000000..355a3cec8c35
+index 000000000000..269184e2fc45
 --- /dev/null
 +++ b/sound/soc/codecs/mp.h
-@@ -0,0 +1,387 @@
+@@ -0,0 +1,408 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * mp.h - Musica Pristina ALSA SoC codec driver header file
++ * definitions for MP2019
 + *
-+ * Copyright 2018 Welsh Technologies.
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
++ * Copyright 2019 Welsh Technologies
 + */
++
++#ifndef __MP2019_H__
++#define __MP2019_H__
++
++#define MP2019_FORMATS (SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE)
++/*
++	remove 16 to force 24 / 32 bit conversion ** SNDRV_PCM_FMTBIT_S16_LE | \
++*/
++
++
++#define MP2019_RATES (SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |   \
++						SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000 |   \
++						SNDRV_PCM_RATE_176400 | SNDRV_PCM_RATE_192000 | \
++						SNDRV_PCM_RATE_352000 | SNDRV_PCM_RATE_384000 | \
++						SNDRV_PCM_RATE_705600 | SNDRV_PCM_RATE_768000)
++
++extern const struct regmap_config mp2019_regmap_config;
++
++int mp2019_common_init(struct device *dev, struct regmap *regmap);
++
++#endif
 +
 +#include <linux/module.h>
 +#include <linux/regmap.h>
@@ -929,11 +1256,12 @@ index 000000000000..355a3cec8c35
 +#include <sound/soc.h>
 +#include "mp_clkgen.h"
 +
-+
-+static inline int update_playback_OCXO(struct snd_soc_codec *codec, int frame_rate,
++static inline int update_playback_OCXO(struct snd_soc_dai *dai, int frame_rate,
 +									   int frame_width)
 +{
-+	struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
++	struct snd_soc_component *component = dai->component;
++	struct mp2019_codec_priv *mp = snd_soc_component_get_drvdata(component);
++
 +	pr_warn("update_playback_OCXO %d %d", frame_rate, frame_width);
 +	regmap_write(mp->lcd_regmap, 0x01, frame_rate);
 +	regmap_write(mp->lcd_regmap, 0x02, frame_width);
@@ -944,16 +1272,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_03(codec);
++			clkgen_regmap_03(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_02(codec);
++			clkgen_regmap_02(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_01(codec);
++			clkgen_regmap_01(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -961,16 +1289,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_06(codec);
++			clkgen_regmap_06(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_05(codec);
++			clkgen_regmap_05(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_04(codec);
++			clkgen_regmap_04(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -978,16 +1306,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_09(codec);
++			clkgen_regmap_09(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_08(codec);
++			clkgen_regmap_08(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_07(codec);
++			clkgen_regmap_07(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -995,16 +1323,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_12(codec);
++			clkgen_regmap_12(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_11(codec);
++			clkgen_regmap_11(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_10(codec);
++			clkgen_regmap_10(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1012,16 +1340,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_15(codec);
++			clkgen_regmap_15(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_14(codec);
++			clkgen_regmap_14(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_13(codec);
++			clkgen_regmap_13(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1029,16 +1357,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_18(codec);
++			clkgen_regmap_18(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_17(codec);
++			clkgen_regmap_17(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_16(codec);
++			clkgen_regmap_16(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1046,16 +1374,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_21(codec);
++			clkgen_regmap_21(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_20(codec);
++			clkgen_regmap_20(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_19(codec);
++			clkgen_regmap_19(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1063,16 +1391,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_24(codec);
++			clkgen_regmap_24(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_23(codec);
++			clkgen_regmap_23(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_22(codec);
++			clkgen_regmap_22(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1080,16 +1408,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_27(codec);
++			clkgen_regmap_27(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_26(codec);
++			clkgen_regmap_26(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_25(codec);
++			clkgen_regmap_25(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1097,46 +1425,48 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_30(codec);
++			clkgen_regmap_30(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_29(codec);
++			clkgen_regmap_29(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_28(codec);
++			clkgen_regmap_28(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
 +	default:
-+		dev_err(codec->dev, "frame rate %d not supported\n",
++		dev_err(component->dev, "frame rate %d not supported\n",
 +				frame_rate);
 +		return -EINVAL;
 +	}
 +	return 0;
 +}
 +
-+static inline int update_playback_DFXO(struct snd_soc_codec *codec, int frame_rate,
++static inline int update_playback_DFXO(struct snd_soc_dai *dai, int frame_rate,
 +									   int frame_width)
 +{
++	struct snd_soc_component *component = dai->component;
++	struct mp2019_codec_priv *mp = snd_soc_component_get_drvdata(component);
 +	switch (frame_rate)
 +	{
 +	case 44100:
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_33(codec);
++			clkgen_regmap_33(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_32(codec);
++			clkgen_regmap_32(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_31(codec);
++			clkgen_regmap_31(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1144,16 +1474,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_48(codec);
++			clkgen_regmap_48(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_47(codec);
++			clkgen_regmap_47(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_46(codec);
++			clkgen_regmap_46(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1161,16 +1491,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_36(codec);
++			clkgen_regmap_36(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_35(codec);
++			clkgen_regmap_35(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_34(codec);
++			clkgen_regmap_34(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1178,16 +1508,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_51(codec);
++			clkgen_regmap_51(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_50(codec);
++			clkgen_regmap_50(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_49(codec);
++			clkgen_regmap_49(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1195,16 +1525,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_39(codec);
++			clkgen_regmap_39(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_38(codec);
++			clkgen_regmap_38(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_37(codec);
++			clkgen_regmap_37(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1212,16 +1542,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_54(codec);
++			clkgen_regmap_54(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_53(codec);
++			clkgen_regmap_53(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_52(codec);
++			clkgen_regmap_52(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1229,16 +1559,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_42(codec);
++			clkgen_regmap_42(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_41(codec);
++			clkgen_regmap_41(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_40(codec);
++			clkgen_regmap_40(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1246,16 +1576,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_57(codec);
++			clkgen_regmap_57(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_56(codec);
++			clkgen_regmap_56(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_55(codec);
++			clkgen_regmap_55(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1263,16 +1593,16 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_45(codec);
++			clkgen_regmap_45(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_44(codec);
++			clkgen_regmap_44(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_43(codec);
++			clkgen_regmap_43(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
@@ -1280,21 +1610,21 @@ index 000000000000..355a3cec8c35
 +		switch (frame_width)
 +		{
 +		case 16:
-+			clkgen_regmap_60(codec);
++			clkgen_regmap_60(mp);
 +			break;
 +		case 24:
-+			clkgen_regmap_59(codec);
++			clkgen_regmap_59(mp);
 +			break;
 +		case 32:
-+			clkgen_regmap_58(codec);
++			clkgen_regmap_58(mp);
 +			break;
 +		default:
-+			dev_err(codec->dev, "%-d-bit frame width not supported\n", frame_width);
++			dev_err(component->dev, "%-d-bit frame width not supported\n", frame_width);
 +			return -EINVAL;
 +		}
 +		break;
 +	default:
-+		dev_err(codec->dev, "frame rate %d not supported\n",
++		dev_err(component->dev, "frame rate %d not supported\n",
 +				frame_rate);
 +		return -EINVAL;
 +	}
@@ -1302,10 +1632,10 @@ index 000000000000..355a3cec8c35
 +}
 diff --git a/sound/soc/codecs/mp_clkgen.h b/sound/soc/codecs/mp_clkgen.h
 new file mode 100644
-index 000000000000..474efdf650ec
+index 000000000000..619f24a6788b
 --- /dev/null
 +++ b/sound/soc/codecs/mp_clkgen.h
-@@ -0,0 +1,3895 @@
+@@ -0,0 +1,3897 @@
 +/*
 + * mp_clkgen.h - Musica Pristina ALSA SoC codec driver clock configuration
 + *
@@ -1320,38 +1650,38 @@ index 000000000000..474efdf650ec
 +#include <linux/regmap.h>
 +#include <sound/soc.h>
 +
-+/* MP codec private structure */
-+struct mp_codec_priv {
-+	int fmt;	/* i2s data format */
++struct mp2019_codec_priv {
++	int fmt;
 +	int current_clock;
-+    int current_regmap;
++	int current_regmap;
 +	struct regmap *clkgen_regmap;
 +	struct regmap *oscsel_regmap;
-+    struct regmap *lcd_regmap;
++	struct regmap *lcd_regmap;
 +};
 +
 +
-+static inline void enable_DFXO_451584(struct snd_soc_codec *codec)
++
++static inline void enable_DFXO_451584(struct mp2019_codec_priv *mp)
 +{
-+	struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
++	
 +	if(mp->current_clock != 3) {
 +		mp->current_clock = 3;
 +		regmap_write(mp->oscsel_regmap, 0x01, 0xf9);
 +	}
 +}
 +
-+static inline void enable_DFXO_49152(struct snd_soc_codec *codec)
++static inline void enable_DFXO_49152(struct mp2019_codec_priv *mp)
 +{
-+	struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
++	
 +	if(mp->current_clock != 2) {
 +		mp->current_clock = 2;
 +		regmap_write(mp->oscsel_regmap, 0x01, 0xfa);
 +	}
 +}
 +
-+static inline void enable_OCXO(struct snd_soc_codec *codec)
++static inline void enable_OCXO(struct mp2019_codec_priv *mp)
 +{
-+	struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
++	
 +    int clock;
 +    clock = mp->current_clock;
 +    pr_warn("BEGIN enable_OCXO");
@@ -1391,13 +1721,13 @@ index 000000000000..474efdf650ec
 +}
 +
 +/* default value of I2C registers for OSCSEL */
-+static const struct reg_default mp_oscsel_reg_defaults[] = {
++static const struct reg_default mp2019_oscsel_reg_defaults[] = {
 +		{ 0x03,		0xf0 },
 +        { 0x01,		0xfc },
 +};
 +
 +/* default value of I2C registers for CLKGEN */
-+static const struct reg_default mp_codec_reg_defaults[] = {
++static const struct reg_default mp2019_codec_reg_defaults[] = {
 +        {0x0B24,0xC0},
 +        {0x0B25,0x00},
 +		{0x0502,0x01},
@@ -1447,14 +1777,16 @@ index 000000000000..474efdf650ec
 +		{0x011A,0x08},
 +		{0x0126,0x02},
 +		{0x0127,0x09},
-+		// {0x0128,0x6B},
-+        // LVDS
++		/* {0x0128,0x6B},
++        LVDS
++        */
 +        {0x0128,0x33},
-+        // ----
-+        // {0x0129,0x08},
-+        // LVDS
++        /* ----
++         {0x0129,0x08},
++         LVDS
++        */
 +		{0x0129,0x08},
-+        // ----
++        /* ---- */
 +		{0x012B,0x02},
 +		{0x012C,0xCC},
 +		{0x012D,0x00},
@@ -1730,7 +2062,7 @@ index 000000000000..474efdf650ec
 +		{0x001C,0x01},
 +		{0x0B24,0xC3},
 +		{0x0B25,0x02},
-+        //
++        /* */
 +        {0x0B24, 0xC0},
 +        {0x0B25, 0x00},
 +        {0x0502, 0x01},
@@ -1778,10 +2110,10 @@ index 000000000000..474efdf650ec
 +        {0x0B25, 0x02},
 +};
 +
-+static inline void clkgen_regmap_01(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_01(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 1)
 +    {
@@ -1835,10 +2167,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_02(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_02(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 2)
 +    {
@@ -1892,12 +2224,12 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_03(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_03(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
++    
 +    pr_warn("   ***  clkgen_regmap_03");
 +
-+    enable_OCXO(codec);
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 3)
 +    {
@@ -1951,13 +2283,13 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_04(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_04(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
++    
 +    pr_warn("   ***  clkgen_regmap_04");
 +
-+    enable_OCXO(codec);
-+    pr_warn("   POST enable_OCXO(codec);");
++    enable_OCXO(mp);
++    pr_warn("   POST enable_OCXO(mp);");
 +    if(mp->current_regmap != 4)
 +    {
 +        mp->current_regmap = 4;
@@ -2010,10 +2342,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_05(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_05(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 5)
 +    {
@@ -2067,12 +2399,12 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_06(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_06(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
++    
 +    pr_warn("   ***  clkgen_regmap_06");
 +
-+    enable_OCXO(codec);
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 6)
 +    {
@@ -2126,10 +2458,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_07(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_07(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 7)
 +    {
@@ -2183,10 +2515,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_08(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_08(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 8)
 +    {
@@ -2240,10 +2572,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_09(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_09(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 9)
 +    {
@@ -2297,10 +2629,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_10(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_10(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 10)
 +    {
@@ -2354,10 +2686,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_11(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_11(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 11)
 +    {
@@ -2410,10 +2742,10 @@ index 000000000000..474efdf650ec
 +    }
 +}
 +
-+static inline void clkgen_regmap_12(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_12(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 12)
 +    {
@@ -2467,10 +2799,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_13(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_13(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 13)
 +    {
@@ -2524,10 +2856,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_14(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_14(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 14)
 +    {
@@ -2581,10 +2913,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_15(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_15(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 15)
 +    {
@@ -2638,10 +2970,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_16(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_16(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 16)
 +    {
@@ -2695,10 +3027,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_17(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_17(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 17)
 +    {
@@ -2752,10 +3084,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_18(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_18(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 18)
 +    {
@@ -2809,10 +3141,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_19(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_19(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 19)
 +    {
@@ -2866,10 +3198,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_20(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_20(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 20)
 +    {
@@ -2923,10 +3255,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_21(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_21(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 21)
 +    {
@@ -2980,10 +3312,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_22(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_22(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 22)
 +    {
@@ -3037,10 +3369,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_23(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_23(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 23)
 +    {
@@ -3094,10 +3426,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_24(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_24(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 24)
 +    {
@@ -3151,10 +3483,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_25(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_25(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 25)
 +    {
@@ -3208,10 +3540,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_26(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_26(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 26)
 +    {
@@ -3265,10 +3597,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_27(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_27(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 27)
 +    {
@@ -3322,10 +3654,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_28(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_28(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 28)
 +    {
@@ -3379,10 +3711,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_29(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_29(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 29)
 +    {
@@ -3436,10 +3768,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_30(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_30(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_OCXO(codec);
++    
++    enable_OCXO(mp);
 +
 +    if(mp->current_regmap != 30)
 +    {
@@ -3493,10 +3825,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_31(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_31(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 31)
 +    {
@@ -3550,10 +3882,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_32(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_32(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 32)
 +    {
@@ -3607,10 +3939,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_33(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_33(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 33)
 +    {
@@ -3664,10 +3996,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_34(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_34(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 34)
 +    {
@@ -3721,10 +4053,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_35(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_35(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 35)
 +    {
@@ -3778,10 +4110,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_36(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_36(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 36)
 +    {
@@ -3835,10 +4167,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_37(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_37(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 37)
 +    {
@@ -3892,10 +4224,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_38(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_38(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 38)
 +    {
@@ -3949,10 +4281,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_39(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_39(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 39)
 +    {
@@ -4006,10 +4338,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_40(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_40(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 40)
 +    {
@@ -4063,10 +4395,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_41(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_41(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 41)
 +    {
@@ -4120,10 +4452,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_42(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_42(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 42)
 +    {
@@ -4177,10 +4509,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_43(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_43(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 43)
 +    {
@@ -4234,10 +4566,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_44(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_44(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 44)
 +    {
@@ -4291,10 +4623,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_45(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_45(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_451584(codec);
++    
++    enable_DFXO_451584(mp);
 +
 +    if(mp->current_regmap != 45)
 +    {
@@ -4348,10 +4680,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_46(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_46(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 46)
 +    {
@@ -4405,10 +4737,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_47(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_47(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 47)
 +    {
@@ -4462,10 +4794,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_48(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_48(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 48)
 +    {
@@ -4519,10 +4851,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_49(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_49(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 49)
 +    {
@@ -4576,10 +4908,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_50(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_50(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 50)
 +    {
@@ -4633,10 +4965,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_51(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_51(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 51)
 +    {
@@ -4690,10 +5022,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_52(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_52(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 52)
 +    {
@@ -4747,10 +5079,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_53(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_53(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 53)
 +    {
@@ -4804,10 +5136,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_54(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_54(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 54)
 +    {
@@ -4861,10 +5193,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_55(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_55(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 55)
 +    {
@@ -4918,10 +5250,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_56(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_56(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 56)
 +    {
@@ -4975,10 +5307,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_57(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_57(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 57)
 +    {
@@ -5032,10 +5364,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_58(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_58(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 58)
 +    {
@@ -5089,10 +5421,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_59(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_59(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 59)
 +    {
@@ -5146,10 +5478,10 @@ index 000000000000..474efdf650ec
 +}
 +
 +
-+static inline void clkgen_regmap_60(struct snd_soc_codec *codec)
++static inline void clkgen_regmap_60(struct mp2019_codec_priv *mp)
 +{
-+    struct mp_codec_priv *mp = snd_soc_codec_get_drvdata(codec);
-+    enable_DFXO_49152(codec);
++    
++    enable_DFXO_49152(mp);
 +
 +    if(mp->current_regmap != 60)
 +    {
