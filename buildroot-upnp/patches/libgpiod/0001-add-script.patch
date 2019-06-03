@@ -1,0 +1,55 @@
+diff --git a/.gitignore b/.gitignore
+index fdb0ed4..f49689e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -48,3 +48,5 @@ gpiod-test
+ 
+ # man pages
+ *.man
++
++.vscode/
+diff --git a/tools/gpiomon.c b/tools/gpiomon.c
+index 9a1843b..1084df4 100644
+--- a/tools/gpiomon.c
++++ b/tools/gpiomon.c
+@@ -28,10 +28,11 @@ static const struct option longopts[] = {
+ 	{ "falling-edge",	no_argument,		NULL,	'f' },
+ 	{ "line-buffered",	no_argument,		NULL,	'b' },
+ 	{ "format",		required_argument,	NULL,	'F' },
++	{ "script",		required_argument,	NULL,	'S' },
+ 	{ GETOPT_NULL_LONGOPT },
+ };
+ 
+-static const char *const shortopts = "+hvln:srfbF:";
++static const char *const shortopts = "+hvln:srfbF:S:";
+ 
+ static void print_help(void)
+ {
+@@ -55,6 +56,7 @@ static void print_help(void)
+ 	printf("  %%e:  event type (0 - falling edge, 1 rising edge)\n");
+ 	printf("  %%s:  seconds part of the event timestamp\n");
+ 	printf("  %%n:  nanoseconds part of the event timestamp\n");
++	printf("  -S, --script=SCT\tspecify script to run upon completion\n");
+ }
+ 
+ struct mon_ctx {
+@@ -64,6 +66,7 @@ struct mon_ctx {
+ 
+ 	bool silent;
+ 	char *fmt;
++	char *sct;
+ 
+ 	int sigfd;
+ };
+@@ -214,8 +217,10 @@ static int event_callback(int event_type, unsigned int line_offset,
+ 		return GPIOD_CTXLESS_EVENT_CB_RET_OK;
+ 	}
+ 
+-	if (ctx->events_wanted && ctx->events_done >= ctx->events_wanted)
++	if (ctx->events_wanted && ctx->events_done >= ctx->events_wanted) {
++		system(ctx->sct);
+ 		return GPIOD_CTXLESS_EVENT_CB_RET_STOP;
++	}
+ 
+ 	return GPIOD_CTXLESS_EVENT_CB_RET_OK;
+ }
