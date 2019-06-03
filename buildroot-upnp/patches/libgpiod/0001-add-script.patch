@@ -1,5 +1,5 @@
 diff --git a/src/tools/gpiomon.c b/src/tools/gpiomon.c
-index c13ab38..d07e7aa 100644
+index c13ab38..0409b70 100644
 --- a/src/tools/gpiomon.c
 +++ b/src/tools/gpiomon.c
 @@ -27,10 +27,11 @@ static const struct option longopts[] = {
@@ -15,14 +15,14 @@ index c13ab38..d07e7aa 100644
  
  static void print_help(void)
  {
-@@ -53,6 +54,7 @@ static void print_help(void)
- 	printf("  %%e:  event type (0 - falling edge, 1 rising edge)\n");
- 	printf("  %%s:  seconds part of the event timestamp\n");
- 	printf("  %%n:  nanoseconds part of the event timestamp\n");
+@@ -47,6 +48,7 @@ static void print_help(void)
+ 	printf("  -r, --rising-edge:\tonly process rising edge events\n");
+ 	printf("  -f, --falling-edge:\tonly process falling edge events\n");
+ 	printf("  -F, --format=FMT\tspecify custom output format\n");
 +	printf("  -S, --script=SCT\tspecify script to run upon completion\n");
- }
- 
- struct mon_ctx {
+ 	printf("\n");
+ 	printf("Format specifiers:\n");
+ 	printf("  %%o:  GPIO line offset\n");
 @@ -62,6 +64,7 @@ struct mon_ctx {
  
  	bool silent;

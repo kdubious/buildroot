@@ -2,7 +2,10 @@
 
 NAME=reset
 PIDFILE=/var/run/$NAME.pid
-DAEMON="/opt/mp/reset.sh"
+DAEMON="gpiomon"
+DAEMONARGS1="--script="
+DAEMONSCT="/opt/mp/reset_button"
+DAEMONARGS2="--num-events=1 --rising-edge gpiochip0 1"
 
 pid_file_exists() {
     [ -f "$PIDFILE" ]
@@ -19,7 +22,7 @@ is_running() {
 
 start() {
     printf "Starting $NAME: "
-    start-stop-daemon -S -q -m -b -p $PIDFILE --exec $DAEMON
+    start-stop-daemon -S -q -m -b -p $PIDFILE --exec $DAEMON -- $DAEMONARGS1"\"$DAEMONSCT\"" $DAEMONARGS2
     [ $? = 0 ] && echo "OK, started with pid $PIDFILE : $(get_pid)" || echo "FAIL"
 }
 stop() {

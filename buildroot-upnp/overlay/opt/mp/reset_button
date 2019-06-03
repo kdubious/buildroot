@@ -1,0 +1,11 @@
+#!/bin/sh
+
+#log the button click
+touch /opt/mp/done
+echo `date` > /opt/mp/done
+
+#put the default DHCP config into place
+cat /opt/mp/dhcp >> /etc/network/interfaces
+
+#force a reboot
+reboot
