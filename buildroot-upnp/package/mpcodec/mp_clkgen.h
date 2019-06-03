@@ -21,8 +21,6 @@ struct mp2019_codec_priv {
 	struct regmap *lcd_regmap;
 };
 
-
-
 static inline void enable_DFXO_451584(struct mp2019_codec_priv *mp)
 {
 	
@@ -76,10 +74,10 @@ static inline void clkgen_regmap_write(struct regmap *regmap, unsigned int reg, 
 
     if(reg == 0x0B4E) {
         msleep(300);
-        pr_warn("*** SLEEP");    
+        pr_debug("*** SLEEP");    
     }
 
-    pr_warn("*** regPageVal: %d regAddr: %d def: %d", regPageVal, regAddr, def);
+    pr_debug("*** regPageVal: %d regAddr: %d def: %d", regPageVal, regAddr, def);
 }
 
 /* default value of I2C registers for OSCSEL */

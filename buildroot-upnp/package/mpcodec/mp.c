@@ -142,7 +142,8 @@ static int mp2019_hw_params(struct snd_pcm_substream *substream,
 	frame_rate = params_rate(params);
 	frame_width = params_width(params);
 	
-	dev_warn(component->dev, "BEGIN mp2019_set_clock");
+	if(debug)
+		dev_dbg(component->dev, "BEGIN mp2019_set_clock");
 
 	switch (frame_rate) {
 	case 44100:
@@ -180,17 +181,17 @@ static int mp2019_hw_params(struct snd_pcm_substream *substream,
 	}
 	if (ocxo == 1) {
 		/* OCXO crystal strategy */
-		dev_warn(component->dev,
+		dev_dbg(component->dev,
 			 "    CONFIG_SND_SOC_MPCODEC_XTAL_OCXO");
 		return update_playback_OCXO(dai, frame_rate, frame_width);
 	} else {
 		/* Dual Frequency XO crystal strategy */
-		dev_warn(component->dev,
+		dev_dbg(component->dev,
 			 "    CONFIG_SND_SOC_MPCODEC_XTAL_DFXO");
 		return update_playback_DFXO(dai, frame_rate, frame_width);
 	}
 
-	dev_warn(component->dev, "END mp2019_set_clock");
+	dev_dbg(component->dev, "END mp2019_set_clock");
 	return 0;
 }
 
@@ -314,7 +315,7 @@ static int mp2019_lcd_i2c_probe(struct i2c_client *i2c,
 	struct mp2019_codec_priv *mp;
 	int ret;
 
-	dev_warn(&i2c->dev, "BEGIN mp2019_lcd_i2c_probe");
+	dev_dbg(&i2c->dev, "BEGIN mp2019_lcd_i2c_probe");
 
 	clkgen_np = of_parse_phandle(i2c->dev.of_node, "mp,clkgen", 0);
 	if (!clkgen_np) {
@@ -340,7 +341,7 @@ static int mp2019_lcd_i2c_probe(struct i2c_client *i2c,
 
 	i2c_set_clientdata(i2c, mp);
 
-	dev_warn(&i2c->dev, "END mp2019_lcd_i2c_probe");
+	dev_dbg(&i2c->dev, "END mp2019_lcd_i2c_probe");
 
 	return 0;
 }
@@ -388,7 +389,7 @@ static int mp2019_oscsel_i2c_probe(struct i2c_client *i2c,
 	int ret;
 	int i;
 
-	dev_warn(&i2c->dev, "BEGIN mp2019_oscsel_i2c_probe");
+	dev_dbg(&i2c->dev, "BEGIN mp2019_oscsel_i2c_probe");
 
 	clkgen_np = of_parse_phandle(i2c->dev.of_node, "mp,clkgen", 0);
 	if (!clkgen_np) {
@@ -412,11 +413,11 @@ static int mp2019_oscsel_i2c_probe(struct i2c_client *i2c,
 			ret);
 		return ret;
 	}
-	dev_warn(&i2c->dev, "    BEGIN i2c_set_clientdata(client, mp);");
+	dev_dbg(&i2c->dev, "    BEGIN i2c_set_clientdata(client, mp);");
 	i2c_set_clientdata(i2c, mp);
-	dev_warn(&i2c->dev, "    BEGIN i2c_set_clientdata(client, mp);");
+	dev_dbg(&i2c->dev, "    BEGIN i2c_set_clientdata(client, mp);");
 
-	dev_warn(&i2c->dev, "BEGIN devm_snd_soc_register_component");
+	dev_dbg(&i2c->dev, "BEGIN devm_snd_soc_register_component");
 
 	/*
 	if(maxrate == 768) {
@@ -436,35 +437,35 @@ static int mp2019_oscsel_i2c_probe(struct i2c_client *i2c,
 		strategy = "DFXO";
 	}
 
-	dev_warn(&client->dev, "    STRATEGY: %s", strategy);
+	dev_dbg(&client->dev, "    STRATEGY: %s", strategy);
 	snprintf(mp2019_dai.name, sizeof(mp2019_dai.name), "%s %d %s", mp2019_dai.name, maxrate, strategy);
-	dev_warn(&client->dev, "*** and the name is: %s", mp2019_dai.name);
+	dev_dbg(&client->dev, "*** and the name is: %s", mp2019_dai.name);
 
 
 	ret = snd_soc_register_codec(&clkgen_client->dev, &mp2019_codec_driver,
 	 			     &mp2019_dai, 1);
 	*/
 
-	dev_warn(&i2c->dev, "    client->dev");
-	dev_warn(&clkgen_client->dev, "    &clkgen_client->dev");
+	dev_dbg(&i2c->dev, "    client->dev");
+	dev_dbg(&clkgen_client->dev, "    &clkgen_client->dev");
 
 	ret = devm_snd_soc_register_component(&clkgen_client->dev,
 			&soc_component_dev_mp2019, &mp2019_dai, 1);
 	
 
-		dev_warn(&i2c->dev, "END devm_snd_soc_register_component");
+		dev_dbg(&i2c->dev, "END devm_snd_soc_register_component");
 	if (ret)
 		return ret;
 
-	dev_warn(&i2c->dev, "    BEGIN default OSCSEL regs");
+	dev_dbg(&i2c->dev, "    BEGIN default OSCSEL regs");
 
 	for (i = 0; i < ARRAY_SIZE(mp2019_oscsel_reg_defaults); i++) {
 		regmap_write(mp->oscsel_regmap, mp2019_oscsel_reg_defaults[i].reg,
 			     mp2019_oscsel_reg_defaults[i].def);
 	}
 
-	dev_warn(&i2c->dev, "    END default OSCSEL regs");
-	dev_warn(&i2c->dev, "    BEGIN default CLKGEN regs");
+	dev_dbg(&i2c->dev, "    END default OSCSEL regs");
+	dev_dbg(&i2c->dev, "    BEGIN default CLKGEN regs");
 
 	for (i = 0; i < ARRAY_SIZE(mp2019_codec_reg_defaults); i++) {
 		clkgen_regmap_write(mp->clkgen_regmap,
@@ -472,9 +473,9 @@ static int mp2019_oscsel_i2c_probe(struct i2c_client *i2c,
 				    mp2019_codec_reg_defaults[i].def);
 	}
 
-	dev_warn(&i2c->dev, "    END default CLKGEN regs");
+	dev_dbg(&i2c->dev, "    END default CLKGEN regs");
 
-	dev_warn(&i2c->dev, "END mp2019_oscsel_i2c_probe");
+	dev_dbg(&i2c->dev, "END mp2019_oscsel_i2c_probe");
 
 	return 0;
 }
@@ -536,7 +537,7 @@ static int mp2019_i2c_probe(struct i2c_client *client,
 	struct mp2019_codec_priv *mp;
 	int ret;
 
-	dev_warn(&client->dev, "BEGIN mp2019_i2c_probe");
+	dev_dbg(&client->dev, "BEGIN mp2019_i2c_probe");
 
 	mp = devm_kzalloc(&client->dev, sizeof(*mp), GFP_KERNEL);
 	if (!mp)
@@ -545,10 +546,10 @@ static int mp2019_i2c_probe(struct i2c_client *client,
 	mp->current_clock = 0;
 	mp->current_regmap = 0;
 
-	dev_warn(&client->dev, "  PRE i2c_set_clientdata");
+	dev_dbg(&client->dev, "  PRE i2c_set_clientdata");
 	i2c_set_clientdata(client, mp);
 
-	dev_warn(&client->dev, "  PRE devm_regmap_init_i2c");
+	dev_dbg(&client->dev, "  PRE devm_regmap_init_i2c");
 	mp->clkgen_regmap = devm_regmap_init_i2c(client, &mp2019_clock_regmap_config);
 	if (IS_ERR(mp->clkgen_regmap)) {
 		ret = PTR_ERR(mp->clkgen_regmap);
@@ -556,7 +557,7 @@ static int mp2019_i2c_probe(struct i2c_client *client,
 		return ret;
 	}
 
-	dev_warn(&client->dev, "END mp2019_i2c_probe");
+	dev_dbg(&client->dev, "END mp2019_i2c_probe");
 
 	return 0;
 }

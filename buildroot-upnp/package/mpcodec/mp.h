@@ -38,7 +38,7 @@ static inline int update_playback_OCXO(struct snd_soc_dai *dai, int frame_rate,
 	struct snd_soc_component *component = dai->component;
 	struct mp2019_codec_priv *mp = snd_soc_component_get_drvdata(component);
 
-	pr_warn("update_playback_OCXO %d %d", frame_rate, frame_width);
+	dev_dbg(&dai->dev, "update_playback_OCXO %d %d", frame_rate, frame_width);
 	regmap_write(mp->lcd_regmap, 0x01, frame_rate);
 	regmap_write(mp->lcd_regmap, 0x02, frame_width);
 
