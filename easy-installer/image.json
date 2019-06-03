@@ -1,0 +1,83 @@
+{
+    "config_format": 1,
+    "autoinstall": true,
+    "name": "Musica Pristina",
+    "description": "Musica Pristina linux distro.",
+    "version": "2.7",
+    "release_date": "2019-06-03",
+    "prepare_script": "prepare.sh",
+    "wrapup_script": "wrapup.sh",
+    "marketing": "marketing.tar",
+    "icon": "toradexlinux.png",
+    "supported_product_ids": [
+      "0032",
+      "0033"
+    ],
+    "mtddevs": [
+      {
+        "name": "u-boot1",
+        "content": {
+          "rawfile": {
+            "filename": "u-boot-nand.imx",
+            "size": 1
+          }
+        }
+      },
+      {
+        "name": "u-boot2",
+        "content": {
+          "rawfile": {
+            "filename": "u-boot-nand.imx",
+            "size": 1
+          }
+        }
+      },
+      {
+        "name": "ubi",
+        "ubivolumes": [
+          {
+            "name": "kernel",
+            "type": "static",
+            "size_kib": 8192,
+            "content": {
+              "rawfile": {
+                "filename": "zImage",
+                "size": 5
+              }
+            }
+          },
+          {
+            "name": "dtb",
+            "type": "static",
+            "size_kib": 128,
+            "content": {
+              "rawfiles": [
+                {
+                  "filename": "imx7d-colibri-eval-v3.dtb",
+                  "product_ids": "0033"
+                },
+                {
+                  "filename": "imx7s-colibri-eval-v3.dtb",
+                  "product_ids": "0032"
+                }
+              ]
+            }
+          },
+          {
+            "name": "m4firmware",
+            "type": "static",
+            "size_kib": 896
+          },
+          {
+            "name": "rootfs",
+            "content": {
+              "filename": "rootfs.tar",
+              "uncompressed_size": 118.231040,
+              "filesystem_type": "ubifs"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  
