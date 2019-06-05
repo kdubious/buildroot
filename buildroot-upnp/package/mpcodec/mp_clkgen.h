@@ -16,6 +16,8 @@ struct mp2019_codec_priv {
 	int fmt;
 	int current_clock;
 	int current_regmap;
+    int frame_rate;
+    int frame_width;
 	struct regmap *clkgen_regmap;
 	struct regmap *oscsel_regmap;
 	struct regmap *lcd_regmap;
@@ -23,7 +25,7 @@ struct mp2019_codec_priv {
 
 static inline void enable_DFXO_451584(struct mp2019_codec_priv *mp)
 {
-	
+	pr_warn("BEGIN enable_DFXO_451584");
 	if(mp->current_clock != 3) {
 		mp->current_clock = 3;
 		regmap_write(mp->oscsel_regmap, 0x01, 0xf9);
@@ -32,7 +34,7 @@ static inline void enable_DFXO_451584(struct mp2019_codec_priv *mp)
 
 static inline void enable_DFXO_49152(struct mp2019_codec_priv *mp)
 {
-	
+	pr_warn("BEGIN enable_DFXO_49152");
 	if(mp->current_clock != 2) {
 		mp->current_clock = 2;
 		regmap_write(mp->oscsel_regmap, 0x01, 0xfa);

@@ -1,0 +1,42 @@
+#!/bin/sh
+# The MP setup
+
+# pass in -d {1=static|2=dynamic} -i {ip address} -s {subnet mask} -g {default gateway}
+
+DHCP="dhcp"
+IP="192.168.1.200"
+SM="255.255.255.0"
+GW="192.168.1.1"
+
+while getopts d:i:s:g: INPUTS; do
+        case $INPUTS in
+                d)
+                        #1=static or 2=DHCP
+                        DHCP=$OPTARG
+                        ;;
+                i)
+                        #IP Address
+                        IP=$OPTARG
+                        ;;
+                s)
+                        #Subnet Mask
+                        SM=$OPTARG
+                        ;;
+                g)
+                        #Gateway
+                        GW=$OPTARG
+                        ;;
+        esac
+done
+
+if [ $DHCP = "2" ]; then
+        cat /opt/mp/dhcp > /etc/network/interfaces
+else
+        sed -e "s/@ip/$IP/g" -e "s/@sm/$SM/g" -e "s/@gw/$GW/g" /opt/mp/static > /etc/network/interfaces
+fi
+
+ifdown eth0
+sleep 3
+ifup eth0
+
+exit 0

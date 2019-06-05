@@ -13,12 +13,11 @@
 	remove 16 to force 24 / 32 bit conversion ** SNDRV_PCM_FMTBIT_S16_LE | \
 */
 
-
 #define MP2019_RATES (SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |   \
-						SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000 |   \
-						SNDRV_PCM_RATE_176400 | SNDRV_PCM_RATE_192000 | \
-						SNDRV_PCM_RATE_352000 | SNDRV_PCM_RATE_384000 | \
-						SNDRV_PCM_RATE_705600 | SNDRV_PCM_RATE_768000)
+					  SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000 |   \
+					  SNDRV_PCM_RATE_176400 | SNDRV_PCM_RATE_192000 | \
+					  SNDRV_PCM_RATE_352000 | SNDRV_PCM_RATE_384000 | \
+					  SNDRV_PCM_RATE_705600 | SNDRV_PCM_RATE_768000)
 
 extern const struct regmap_config mp2019_regmap_config;
 
@@ -32,13 +31,12 @@ int mp2019_common_init(struct device *dev, struct regmap *regmap);
 #include <sound/soc.h>
 #include "mp_clkgen.h"
 
-static inline int update_playback_OCXO(struct snd_soc_dai *dai, int frame_rate,
+static inline int update_playback_OCXO(struct snd_soc_component *component, int frame_rate,
 									   int frame_width)
 {
-	struct snd_soc_component *component = dai->component;
 	struct mp2019_codec_priv *mp = snd_soc_component_get_drvdata(component);
 
-	dev_dbg(&dai->dev, "update_playback_OCXO %d %d", frame_rate, frame_width);
+	dev_dbg(component->dev, "update_playback_OCXO %d %d", frame_rate, frame_width);
 	regmap_write(mp->lcd_regmap, 0x01, frame_rate);
 	regmap_write(mp->lcd_regmap, 0x02, frame_width);
 
@@ -222,10 +220,9 @@ static inline int update_playback_OCXO(struct snd_soc_dai *dai, int frame_rate,
 	return 0;
 }
 
-static inline int update_playback_DFXO(struct snd_soc_dai *dai, int frame_rate,
-									   int frame_width)
+static inline int update_playback_DFXO(struct snd_soc_component *component,
+									   int frame_rate, int frame_width)
 {
-	struct snd_soc_component *component = dai->component;
 	struct mp2019_codec_priv *mp = snd_soc_component_get_drvdata(component);
 	switch (frame_rate)
 	{
