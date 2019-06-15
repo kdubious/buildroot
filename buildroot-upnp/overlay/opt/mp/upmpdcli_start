@@ -1,0 +1,12 @@
+#!/bin/sh
+
+pipe=/opt/roon/fifo
+
+if [[ ! -p $pipe ]]; then
+    mkfifo $pipe
+fi
+
+exec 7<>$pipe
+echo "A" > $pipe
+
+exit 0

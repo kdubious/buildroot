@@ -20,7 +20,7 @@ is_running() {
 
 start() {
         printf "Starting mpd: "
-        start-stop-daemon --start --quiet --background --exec /usr/bin/mpd \
+        start-stop-daemon -S -q -m -b -p $PIDFILE --exec /usr/bin/mpd \
                 && echo "OK started with pid $PIDFILE : $(get_pid)" || echo "FAIL"
 }
 
