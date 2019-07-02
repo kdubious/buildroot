@@ -1,17 +1,23 @@
 {
-    "firstUse": 1,
-    "name": "",
-    "email": "",
-    "serialNumber": "",
-    "purchaseDate": "",
-    "deviceID": "69c312ee-f097-4dd4-bade-03d1cfd0eb09",
-    "firmwareVersion": "003.001.1001",
-    "model": "A Cappella II",
-    "networkType": 2,
-    "volumeControl": 0,
-    "outputType": 1,
-    "dop": 0,
-    "mute": 0,
-    "maxrate": 768,
-    "ocxo": 1
+    "network": {
+        "type": 2
+    },
+    "output": {
+        "volume": 0,
+        "type": 1,
+        "dop": 0,
+        "mute": 0,
+        "max_rate": 768,
+        "ocxo": 1
+    },
+    "registration": {
+        "first_use": 1,
+        "name": "Kevin Welsh",
+        "email": "kwelsh@welshtechnologies.com",
+        "serial_number": "123",
+        "purchase_date": "1/1/2019",
+        "device_id": "69c312ee-f097-4dd4-bade-03d1cfd0eb09",
+        "firmware": "003.001.1001",
+        "model": "A Cappella II"
+    }
 }
