@@ -11,7 +11,7 @@ GW="192.168.1.1"
 while getopts d:i:s:g: INPUTS; do
         case $INPUTS in
                 d)
-                        #1=static or 2=DHCP
+                        #1=static or 0=DHCP
                         DHCP=$OPTARG
                         ;;
                 i)
@@ -29,7 +29,7 @@ while getopts d:i:s:g: INPUTS; do
         esac
 done
 
-if [ $DHCP = "2" ]; then
+if [ $DHCP = "0" ]; then
         cat /opt/mp/dhcp > /etc/network/interfaces
 else
         sed -e "s/@ip/$IP/g" -e "s/@sm/$SM/g" -e "s/@gw/$GW/g" /opt/mp/static > /etc/network/interfaces

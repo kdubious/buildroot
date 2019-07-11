@@ -22,6 +22,7 @@
     "type": "none"
   },
   "source_selection": {
-    "type":"test"
+    "type":"mp",
+    "source_selection_command": "source_selection"
   }
 }
