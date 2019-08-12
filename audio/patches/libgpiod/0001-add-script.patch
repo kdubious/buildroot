@@ -1,29 +1,37 @@
-diff --git a/src/tools/gpiomon.c b/src/tools/gpiomon.c
-index c13ab38..0409b70 100644
---- a/src/tools/gpiomon.c
-+++ b/src/tools/gpiomon.c
-@@ -27,10 +27,11 @@ static const struct option longopts[] = {
- 	{ "rising-edge",	no_argument,		NULL,	'r' },
+diff --git a/COOKBOOK b/COOKBOOK
+new file mode 100644
+index 0000000..0f15b46
+--- /dev/null
++++ b/COOKBOOK
+@@ -0,0 +1 @@
++git diff upstream/v1.3.x v1.3.x > 0001-libgpiod-patch.patch
+\ No newline at end of file
+diff --git a/tools/gpiomon.c b/tools/gpiomon.c
+index 9a1843b..9d297b5 100644
+--- a/tools/gpiomon.c
++++ b/tools/gpiomon.c
+@@ -28,10 +28,11 @@ static const struct option longopts[] = {
  	{ "falling-edge",	no_argument,		NULL,	'f' },
+ 	{ "line-buffered",	no_argument,		NULL,	'b' },
  	{ "format",		required_argument,	NULL,	'F' },
 +	{ "script",		required_argument,	NULL,	'S' },
  	{ GETOPT_NULL_LONGOPT },
  };
  
--static const char *const shortopts = "+hvln:srfF:";
+-static const char *const shortopts = "+hvln:srfbF:";
 +static const char *const shortopts = "+hvln:srfF:S:";
  
  static void print_help(void)
  {
-@@ -47,6 +48,7 @@ static void print_help(void)
- 	printf("  -r, --rising-edge:\tonly process rising edge events\n");
+@@ -49,6 +50,7 @@ static void print_help(void)
  	printf("  -f, --falling-edge:\tonly process falling edge events\n");
+ 	printf("  -b, --line-buffered:\tset standard output as line buffered\n");
  	printf("  -F, --format=FMT\tspecify custom output format\n");
 +	printf("  -S, --script=SCT\tspecify script to run upon completion\n");
  	printf("\n");
  	printf("Format specifiers:\n");
  	printf("  %%o:  GPIO line offset\n");
-@@ -62,6 +64,7 @@ struct mon_ctx {
+@@ -64,6 +66,7 @@ struct mon_ctx {
  
  	bool silent;
  	char *fmt;
@@ -31,7 +39,7 @@ index c13ab38..0409b70 100644
  
  	int sigfd;
  };
-@@ -212,8 +215,10 @@ static int event_callback(int event_type, unsigned int line_offset,
+@@ -214,8 +217,10 @@ static int event_callback(int event_type, unsigned int line_offset,
  		return GPIOD_CTXLESS_EVENT_CB_RET_OK;
  	}
  
@@ -43,7 +51,7 @@ index c13ab38..0409b70 100644
  
  	return GPIOD_CTXLESS_EVENT_CB_RET_OK;
  }
-@@ -281,6 +286,9 @@ int main(int argc, char **argv)
+@@ -286,6 +291,9 @@ int main(int argc, char **argv)
  		case 'F':
  			ctx.fmt = optarg;
  			break;
