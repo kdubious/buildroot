@@ -1,1 +1,1 @@
-include $(sort $(wildcard $(BR2_EXTERNAL_UPNP_PATH)/package/*/*.mk))
+include $(sort $(wildcard $(BR2_EXTERNAL_MP_AUDIO_PATH)/package/*/*.mk))

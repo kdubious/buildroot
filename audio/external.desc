@@ -1,2 +1,2 @@
-name: UPNP
-desc: UPnP renderers and supporting infrastructure
+name: MP_AUDIO
+desc: MP_AUDIO device with RAAT, GMediaRender and supporting infrastructure

@@ -1,7 +1,0 @@
-config BR2_PACKAGE_PLEX
-    bool "plex"
-    help
-      This is a comment that explains what plex is. The help text
-      should be wrapped.
-      
-      http://plex.tv/
