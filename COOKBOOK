@@ -1,3 +1,11 @@
+make BR2_EXTERNAL=~/Cambio/buildroot/audio/ menuconfig
+make mp_defconfig
+
+make nconfig
+
+
+
+
 # set up the external structure
 make BR2_EXTERNAL=/mnt/c/Git/cambio3/buildroot/ nconfig
 
