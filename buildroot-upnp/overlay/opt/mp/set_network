@@ -29,7 +29,7 @@ while getopts d:i:s:g: INPUTS; do
         esac
 done
 
-if [ $DHCP = "2" ]; then
+if [ $DHCP = "0" ]; then
         cat /opt/mp/dhcp > /etc/network/interfaces
 else
         sed -e "s/@ip/$IP/g" -e "s/@sm/$SM/g" -e "s/@gw/$GW/g" /opt/mp/static > /etc/network/interfaces
