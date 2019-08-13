@@ -15,7 +15,7 @@ MPCODEC_FILES = \
 # ~/linux/sound/soc/codecs/mp.h \
 
 define MPCODEC_EXTRACT_CMDS
-        cd $(BR2_EXTERNAL_UPNP_PATH)/package/mpcodec ; cp $(MPCODEC_FILES) $(@D)/
+        cd $(BR2_EXTERNAL_MP_AUDIO_PATH)/package/mpcodec ; cp $(MPCODEC_FILES) $(@D)/
 endef
 
 $(eval $(kernel-module))

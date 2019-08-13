@@ -1,0 +1,7 @@
+config BR2_PACKAGE_PLEX-MEDIA-PLAYER
+    bool "PLEX-MEDIA-PLAYER"
+    help
+      This is a comment that explains what PLEX-MEDIA-PLAYER is. The help text
+      should be wrapped.
+      
+      https://github.com/plexinc/plex-media-player
