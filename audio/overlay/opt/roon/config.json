@@ -23,6 +23,6 @@
   },
   "source_selection": {
     "type":"mp",
-    "source_selection_command": "source_selection"
+    "source_selection_command": "/opt/mp/stop_raat"
   }
 }

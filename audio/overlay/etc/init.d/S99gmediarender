@@ -3,7 +3,7 @@
 NAME=gmediarender
 PIDFILE=/var/run/$NAME.pid
 DAEMON=/usr/bin/$NAME
-DAEMON_ARGS="-d -f ACIII -P /var/run/$NAME.pid --gstout-audiosink=alsasink --gstout-audiodevice=sysdefault:CARD=Headset"
+DAEMON_ARGS="-d -f ACIII -P /var/run/$NAME.pid --logfile=/dev/stdout --gstout-audiosink=alsasink --gstout-audiodevice=sysdefault:CARD=Headset"
 LOG_FILE=--logfile=/dev/stdout
  
 pid_file_exists() {
