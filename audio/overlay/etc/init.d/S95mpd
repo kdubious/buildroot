@@ -1,9 +1,10 @@
 #!/bin/sh
 NAME=mpd
-PIDFILE=/var/run/mpd.pid
+PIDFILE=/var/run/mpd/mpd.pid
+CONFFILE=/opt/mpd/mpd.conf
 
 # Sanity checks
-test -f /etc/mpd.conf || exit 0
+test -f /opt/mpd/mpd.conf || exit 0
 
 pid_file_exists() {
     [ -f "$PIDFILE" ]
@@ -20,8 +21,20 @@ is_running() {
 
 start() {
         printf "Starting mpd: "
-        start-stop-daemon -S -q -m -b -p $PIDFILE --exec /usr/bin/mpd \
-                && echo "OK started with pid $PIDFILE : $(get_pid)" || echo "FAIL"
+        start-stop-daemon -S -q -m -b -p $PIDFILE --exec /usr/bin/mpd -- $CONFFILE
+        # start-stop-daemon -S -v -m -p /var/run/mpd/mpd.pid --exec /usr/bin/mpd -- /opt/mpd/mpd.conf
+        if pid_file_exists
+        then
+            if is_running
+            then
+                PID=$(get_pid)
+                echo "$NAME is running with pid $PIDFILE : $(get_pid)"
+            else
+                echo "$NAME is stopped, but pid file exists"
+            fi
+        else
+            echo "$NAME is stopped"
+        fi
 }
 
 stop() {

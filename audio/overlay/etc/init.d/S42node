@@ -4,9 +4,11 @@ NAME=Cambio_NodeJS
 PIDFILE=/var/run/$NAME.pid
 LOGFILE=/var/log/$NAME.log
 APP_DIR="/www/server/server"
+APP_DIR="/opt/server"
 NODE_APP="server.js"
 DAEMON=$(which node)
 DAEMON_ARGS="/www/server/server/server.js"
+DAEMON_ARGS="/opt/server/server.js"
 
 pid_file_exists() {
     [ -f "$PIDFILE" ]

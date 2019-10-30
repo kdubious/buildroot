@@ -1,1 +1,2 @@
-#        gmediarender -1 gmediarender -1 * - - audio GMediaRender UPnP Renderer
+#   gmediarender 46 gmediarender -1 * - - audio GMediaRender UPnP Renderer
+#   mpd 45 audio -1 * - - - MPD User
