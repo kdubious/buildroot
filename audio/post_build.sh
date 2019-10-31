@@ -7,20 +7,13 @@ CONFIG=`jq --arg val $(cat $UUID) '.deviceID=$val' $TARGET_DIR/opt/mp/config.jso
 echo "" > $TARGET_DIR/opt/mp/config.json
 echo $CONFIG > $TARGET_DIR/opt/mp/config.json
 
-echo "pre tar the /opt folder"
-read -p "Press [Enter] key to continue..."
-tar -chJf $TARGET_DIR/data.tar.xz -C $TARGET_DIR/opt .
-read -p "Press [Enter] key to continue..."
-mv $TARGET_DIR/data.tar.xz $TARGET_DIR/../images/data.tar.xz
-read -p "Press [Enter] key to continue..."
+echo "[TAR] pre tar the /opt folder"
+tar -chf $TARGET_DIR/data.tar -C $TARGET_DIR/opt .
+echo "[TAR] tar complete"
 
-echo "pre kill $TARGET_DIR/opt"
+mv $TARGET_DIR/data.tar $TARGET_DIR/../images/data.tar
 rm -r $TARGET_DIR/opt
-read -p "Press [Enter] key to continue..."
-
-echo "pre make new /opt folder"
 mkdir $TARGET_DIR/opt
-read -p "Press [Enter] key to continue..."
 
-
-echo '/dev/mmcblk1p3    /opt    ext4    defaults    0   0' >> $TARGET_DIR/etc/fstab
+grep -q '^/dev/mmcblk1p3' $TARGET_DIR/etc/fstab && sed -i 's|^/dev/mmcblk1p3.*|/dev/mmcblk1p3    /opt    ext4    defaults    0   0|' $TARGET_DIR/etc/fstab || echo '/dev/mmcblk1p3    /opt    ext4    defaults    0   0' >> $TARGET_DIR/etc/fstab
+grep -q '^sd\[a-z\]\[0-9\]' $TARGET_DIR/etc/mdev.conf && sed -i 's|^sd\[a-z\]\[0-9\].*|sd[a-z][0-9]* 0:0 0660 *(/sbin/automount.sh $MDEV)|' $TARGET_DIR/etc/mdev.conf || echo 'sd[a-z][0-9]* 0:0 0660 *(/sbin/automount.sh $MDEV)' >> $TARGET_DIR/etc/mdev.conf

@@ -1,39 +1,61 @@
 #!/bin/sh
 NAME=redis
-PIDFILE=/var/run/redis/redis.pid
-CONFFILE=/opt/redis/redis.conf
+DAEMON=/usr/bin/$NAME-server
+PIDDIR=/var/run/$NAME
+PIDFILE=$PIDDIR/$NAME.pid
+CONFFILE=/opt/$NAME/$NAME.conf
+OPTS=$CONFFILE
 
 # Sanity checks
-test -f /opt/redis/redis.conf || exit 0
+test -f $CONFFILE || exit 0
 
-pid_file_exists() {
-    [ -f "$PIDFILE" ]
-}
+if [ ! -d $PIDDIR ]
+then
+  mkdir -p $PIDDIR
+fi
+
+chown -R redis:redis $PIDDIR
+chown -R redis:redis /opt/$NAME
+
+if [ ! -x $DAEMON ]; then
+  echo "ERROR: Can't locate $DAEMON."
+  exit 1
+fi
 
 get_pid() {
-    echo "$(cat "$PIDFILE")"
+    if [ -f "$PIDFILE" ]; then
+        cat "$PIDFILE"
+    else
+        echo "No PID yet"
+    fi
 }
 
 is_running() {
-    PID="$(get_pid)"
-    [ -d /proc/$PID ]
+    [ -f "$PIDFILE" ]
 }
 
 start() {
         printf "Starting $NAME: "
-        start-stop-daemon -S -q -m -b -p var/run/redis/redis.pid -c redis:redis --exec /usr/bin/redis-server -- /opt/redis/redis.conf
-        if pid_file_exists
-        then
-            if is_running
-            then
-                PID=$(get_pid)
-                echo "$NAME is running with pid $PIDFILE : $(get_pid)"
-            else
-                echo "$NAME is stopped, but pid file exists"
-            fi
-        else
-            echo "$NAME is stopped"
-        fi
+        # CONFIGURE PIDFILE IN CONFIG
+        start-stop-daemon -S -q -b -c redis:redis --exec $DAEMON -- $OPTS
+        case "$?" in
+        0)
+            echo "$NAME started (`get_pid`)"
+            exit 0
+        ;;
+        1)
+            echo "$NAME seems to be running (`get_pid`)"
+        ;;
+        2)
+            echo "This is really strange [2]"
+        ;;
+        3)
+            echo "ERROR: $NAME did not start"
+        ;;
+        *)
+            echo "This is really strange [???]"
+    esac
+    exit 1
 }
 
 stop() {
@@ -43,17 +65,11 @@ stop() {
 }
 
 status() {
-    if pid_file_exists
-    then
-        if is_running
-        then
-            PID=$(get_pid)
-            echo "$NAME is running with pid $PIDFILE : $(get_pid)"
-        else
-            echo "$NAME is stopped, but pid file exists"
-        fi
+    if is_running; then
+        PID=$(get_pid)
+        echo "$NAME is running with pid $PIDFILE : $(get_pid)"
     else
-        echo "$NAME is stopped"
+        echo "$NAME is stopped, but pid file exists"
     fi
 }
 
