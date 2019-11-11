@@ -16,6 +16,7 @@
 #include <linux/regmap.h>
 #include <linux/of_device.h>
 #include <linux/kernel.h>
+#include <linux/regmap.h>
 #include <sound/core.h>
 #include <sound/pcm.h>
 #include <sound/pcm_params.h>
@@ -68,6 +69,8 @@ static int mp2019_put_xo(struct snd_kcontrol *kcontrol,
 	/* struct mychip *chip = snd_kcontrol_chip(kcontrol); */
 	struct snd_soc_component *component;
 	struct mp2019_codec_priv *mp;
+	// struct smd_pcm_substream *stream;
+	// int status;
 
 	pr_warn("    PUT");
 	pr_warn("    PUT: current ocxo %d", ocxo);
@@ -83,6 +86,17 @@ static int mp2019_put_xo(struct snd_kcontrol *kcontrol,
 	mp = snd_soc_component_get_drvdata(component);
 	pr_warn("    PUT: have mp");
 
+	if(mp->frame_rate == 0)
+		return 0;
+
+	// stream = snd_soc_get_dai_substream(component->card,
+										// component->card->dai_link,
+										// 0);
+	// status = 6; // PAUSED	
+	// snd_pcm_stop(stream, status);
+	
+	// pr_warn("        STATUS: ", status);
+
 	if (ocxo == 1)
 	{
 		pr_warn("    PRE: update_playback_OCXO");
@@ -95,6 +109,7 @@ static int mp2019_put_xo(struct snd_kcontrol *kcontrol,
 		update_playback_DFXO(component, mp->frame_rate, mp->frame_width);
 		pr_warn("    POST: update_playback_DFXO");
 	}
+	// snd_pcm_prepare(stream);
 
 	pr_warn("    PUT: new ocxo %d", ocxo);
 	pr_warn("    PUT COMPLETE");
@@ -103,7 +118,7 @@ static int mp2019_put_xo(struct snd_kcontrol *kcontrol,
 
 /* custom function to fetch info of PCM playback volume */
 static int dac_info_volsw(struct snd_kcontrol *kcontrol,
-						  struct snd_ctl_elem_info *uinfo)
+			  struct snd_ctl_elem_info *uinfo)
 {
 	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
 	uinfo->count = 2;
@@ -116,7 +131,7 @@ static int dac_info_volsw(struct snd_kcontrol *kcontrol,
  * custom function to get PCM playback volume
  */
 static int dac_get_volsw(struct snd_kcontrol *kcontrol,
-						 struct snd_ctl_elem_value *ucontrol)
+			 struct snd_ctl_elem_value *ucontrol)
 {
 	int l;
 	int r;
@@ -134,7 +149,7 @@ static int dac_get_volsw(struct snd_kcontrol *kcontrol,
  * custom function to put PCM playback volume
  */
 static int dac_put_volsw(struct snd_kcontrol *kcontrol,
-						 struct snd_ctl_elem_value *ucontrol)
+			 struct snd_ctl_elem_value *ucontrol)
 {
 	int l;
 	int r;
@@ -146,10 +161,9 @@ static int dac_put_volsw(struct snd_kcontrol *kcontrol,
 }
 
 static int mp2019_dai_trigger(struct snd_pcm_substream *substream, int cmd,
-							  struct snd_soc_dai *dai)
+			  struct snd_soc_dai *dai)
 {
-	switch (cmd)
-	{
+	switch (cmd) {
 	case SNDRV_PCM_TRIGGER_START:
 	case SNDRV_PCM_TRIGGER_RESUME:
 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
@@ -168,16 +182,8 @@ static int mp2019_dai_trigger(struct snd_pcm_substream *substream, int cmd,
 }
 
 static const unsigned int mp2019_rates[] = {
-	44100,
-	48000,
-	88200,
-	96000,
-	176400,
-	192000,
-	352800,
-	384000,
-	705600,
-	768000,
+	44100,  48000,  88200,  96000,  176400,
+	192000, 352800, 384000, 705600, 768000,
 };
 
 static const struct snd_pcm_hw_constraint_list mp2019_rate_constraints = {
@@ -185,14 +191,15 @@ static const struct snd_pcm_hw_constraint_list mp2019_rate_constraints = {
 	.list = mp2019_rates,
 };
 
+
+
 static int mp2019_set_dai_fmt(struct snd_soc_dai *dai, unsigned int fmt)
 {
 	struct snd_soc_component *component = dai->component;
 	struct mp2019_codec_priv *mp = snd_soc_component_get_drvdata(component);
 
 	/* I2S clock and frame master setting. */
-	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK)
-	{
+	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
 	case SND_SOC_DAIFMT_CBM_CFM:
 		break;
 	default:
@@ -200,8 +207,7 @@ static int mp2019_set_dai_fmt(struct snd_soc_dai *dai, unsigned int fmt)
 	}
 
 	/* setting I2S data format */
-	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK)
-	{
+	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
 	case SND_SOC_DAIFMT_I2S:
 		break;
 	default:
@@ -213,8 +219,8 @@ static int mp2019_set_dai_fmt(struct snd_soc_dai *dai, unsigned int fmt)
 }
 
 static int mp2019_hw_params(struct snd_pcm_substream *substream,
-							struct snd_pcm_hw_params *params,
-							struct snd_soc_dai *dai)
+			    struct snd_pcm_hw_params *params,
+			    struct snd_soc_dai *dai)
 {
 	int frame_rate, frame_width;
 	struct snd_soc_component *component = dai->component;
@@ -222,14 +228,13 @@ static int mp2019_hw_params(struct snd_pcm_substream *substream,
 
 	frame_rate = params_rate(params);
 	frame_width = params_width(params);
-
+	
 	priv->frame_rate = frame_rate;
 	priv->frame_width = frame_width;
 
 	dev_dbg(component->dev, "BEGIN mp2019_set_clock");
 
-	switch (frame_rate)
-	{
+	switch (frame_rate) {
 	case 44100:
 	case 48000:
 	case 88200:
@@ -241,32 +246,29 @@ static int mp2019_hw_params(struct snd_pcm_substream *substream,
 		break;
 	case 705600:
 	case 768000:
-		if (maxrate == 768)
-		{
+		if (maxrate == 768) {
 			break;
-		}
-		else
-		{
+		} else {
 			dev_err(component->dev, "frame rate %d not supported\n",
-					frame_rate);
+				frame_rate);
 			return -EINVAL;
 		}
 	default:
 		dev_err(component->dev, "frame rate %d not supported\n",
-				frame_rate);
+			frame_rate);
 		return -EINVAL;
 	}
-	switch (frame_width)
-	{
+	switch (frame_width) {
 	case 16:
 	case 24:
 	case 32:
 		break;
 	default:
 		dev_err(component->dev, "%d-bit frame width not supported\n",
-				frame_width);
+			frame_width);
 		return -EINVAL;
 	}
+	
 	if (ocxo == 1)
 	{
 		/* OCXO crystal strategy */
@@ -287,16 +289,17 @@ static int mp2019_hw_params(struct snd_pcm_substream *substream,
 }
 
 static int mp2019_codec_startup(struct snd_pcm_substream *substream,
-								struct snd_soc_dai *dai)
+			    struct snd_soc_dai *dai)
 {
 	int ret;
 
 	ret = snd_pcm_hw_constraint_list(substream->runtime, 0,
-									 SNDRV_PCM_HW_PARAM_RATE,
-									 &mp2019_rate_constraints);
+					 SNDRV_PCM_HW_PARAM_RATE,
+					 &mp2019_rate_constraints);
 
 	return ret;
 }
+
 
 static const struct regmap_config mp2019_lcd_regmap_config = {
 	.reg_bits = 16,
@@ -305,6 +308,14 @@ static const struct regmap_config mp2019_lcd_regmap_config = {
 	.cache_type = REGCACHE_RBTREE,
 };
 EXPORT_SYMBOL_GPL(mp2019_lcd_regmap_config);
+
+static const struct regmap_config mp2019_aes_regmap_config = {
+	.reg_bits = 8,
+	.val_bits = 8,
+	.max_register = 0xFF,
+	.cache_type = REGCACHE_RBTREE,
+};
+EXPORT_SYMBOL_GPL(mp2019_aes_regmap_config);
 
 static const struct regmap_config mp2019_clock_regmap_config = {
 	.reg_bits = 8,
@@ -362,6 +373,7 @@ static struct snd_soc_dai_driver mp2019_dai = {
 	.ops = &mp2019_dai_ops,
 };
 
+
 /*
 int mp2019_common_init(struct device *dev, struct regmap *regmap)
 {
@@ -379,6 +391,8 @@ int mp2019_common_init(struct device *dev, struct regmap *regmap)
 }
 EXPORT_SYMBOL_GPL(mp2019_common_init);
 */
+
+
 
 static int mp2019_codec_probe(struct snd_soc_component *component)
 {
@@ -400,16 +414,29 @@ static const struct snd_soc_component_driver soc_component_dev_mp2019 = {
 	.non_legacy_dai_naming = 1,
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* LCD DRIVER */
 
 static int mp2019_lcd_i2c_probe(struct i2c_client *i2c,
-								const struct i2c_device_id *id)
+			    const struct i2c_device_id *id)
 {
 	struct device_node *clkgen_np;
 	struct i2c_client *clkgen_client;
 	struct mp2019_codec_priv *mp;
 	int ret;
-
 	dev_dbg(&i2c->dev, "BEGIN mp2019_lcd_i2c_probe");
 
 	clkgen_np = of_parse_phandle(i2c->dev.of_node, "mp,clkgen", 0);
@@ -450,8 +477,8 @@ static int mp2019_lcd_i2c_remove(struct i2c_client *i2c)
 }
 
 static const struct i2c_device_id mp2019_lcd_id[] = {
-	{"mp2019_lcd", 0},
-	{},
+	{ "mp2019_lcd", 0 },
+	{ },
 };
 
 MODULE_DEVICE_TABLE(i2c, mp2019_lcd_id);
@@ -460,7 +487,8 @@ static const struct of_device_id mp2019_lcd_dt_ids[] = {
 	{
 		.compatible = "mp,codec-lcd",
 	},
-	{}};
+	{ }
+};
 MODULE_DEVICE_TABLE(of, mp2019_lcd_dt_ids);
 
 static struct i2c_driver mp2019_lcd_i2c_driver = {
@@ -476,9 +504,128 @@ static struct i2c_driver mp2019_lcd_i2c_driver = {
 
 /* END LCD DRIVER */
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* AES DRIVER */
+
+static int mp2019_aes_i2c_probe(struct i2c_client *i2c,
+			    const struct i2c_device_id *id)
+{
+	struct device_node *clkgen_np;
+	struct i2c_client *clkgen_client;
+	struct mp2019_codec_priv *mp;
+	int ret;
+	int i;
+	pr_warn("*BEGIN mp2019_aes_i2c_probe");
+	dev_dbg(&i2c->dev, "BEGIN mp2019_aes_i2c_probe");
+
+	clkgen_np = of_parse_phandle(i2c->dev.of_node, "mp,clkgen", 0);
+	if (!clkgen_np)
+	{
+		dev_err(&i2c->dev,
+				"Failed to get clock generator phandle\n");
+		pr_warn("*Failed to get clock generator phandle");
+		return -ENODEV;
+	}
+	clkgen_client = of_find_i2c_device_by_node(clkgen_np);
+	of_node_put(clkgen_np);
+	if (!clkgen_client)
+	{
+		dev_dbg(&i2c->dev, "Clock generator I2C client not found\n");
+		pr_warn("*Clock generator I2C client not found");
+		return -EPROBE_DEFER;
+	}
+	mp = i2c_get_clientdata(clkgen_client);
+	pr_warn("*We have mp");
+	put_device(&clkgen_client->dev);
+	pr_warn("*We put the device");
+	mp->aes_regmap = devm_regmap_init_i2c(i2c, &mp2019_aes_regmap_config);
+	pr_warn("*We initialized the Regmap");
+	if (IS_ERR(mp->aes_regmap))
+	{
+		ret = PTR_ERR(mp->aes_regmap);
+		pr_warn("*Failed to allocate aes regmap");
+		dev_err(&i2c->dev, "Failed to allocate aes regmap: %d\n",
+				ret);
+		return ret;
+	}
+
+	i2c_set_clientdata(i2c, mp);
+	
+	dev_dbg(&i2c->dev, "    BEGIN default AES regs");
+	pr_warn("*BEGIN default AES regs");
+	for (i = 0; i < ARRAY_SIZE(mp2019_aes_reg_defaults); i++)
+	{
+		regmap_write(mp->aes_regmap,
+					 mp2019_aes_reg_defaults[i].reg,
+					 mp2019_aes_reg_defaults[i].def);
+
+		pr_warn("** AES %d %d",
+					mp2019_aes_reg_defaults[i].reg,
+					mp2019_aes_reg_defaults[i].def);
+
+	}
+	dev_dbg(&i2c->dev, "    END default AES regs");
+	pr_warn("*END default AES regs");
+
+	dev_dbg(&i2c->dev, "END mp2019_aes_i2c_probe");
+
+	return 0;
+}
+
+static int mp2019_aes_i2c_remove(struct i2c_client *i2c)
+{
+	snd_soc_unregister_component(&i2c->dev);
+	return 0;
+}
+
+static const struct i2c_device_id mp2019_aes_id[] = {
+	{ "mp2019_aes", 0 },
+	{},
+};
+MODULE_DEVICE_TABLE(i2c, mp2019_aes_id);
+
+static const struct of_device_id mp2019_aes_dt_ids[] = {
+	{
+		.compatible = "mp,codec-aes",
+	},
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, mp2019_aes_dt_ids);
+
+static struct i2c_driver mp2019_aes_i2c_driver = {
+	.driver =
+		{
+			.name = "mp2019_aes",
+			.of_match_table = mp2019_aes_dt_ids,
+		},
+	.probe = mp2019_aes_i2c_probe,
+	.remove = mp2019_aes_i2c_remove,
+	.id_table = mp2019_aes_id,
+};
+
+/* END AES DRIVER */
+
+
+
+
+
+
+
+
 /* mp2019 I2C */
 static int mp2019_oscsel_i2c_probe(struct i2c_client *i2c,
-								   const struct i2c_device_id *id)
+			       const struct i2c_device_id *id)
 {
 	struct device_node *clkgen_np;
 	struct i2c_client *clkgen_client;
@@ -487,6 +634,7 @@ static int mp2019_oscsel_i2c_probe(struct i2c_client *i2c,
 	int i;
 
 	dev_dbg(&i2c->dev, "BEGIN mp2019_oscsel_i2c_probe");
+	pr_warn("BEGIN mp2019_oscsel_i2c_probe");
 
 	clkgen_np = of_parse_phandle(i2c->dev.of_node, "mp,clkgen", 0);
 	if (!clkgen_np)
@@ -519,32 +667,6 @@ static int mp2019_oscsel_i2c_probe(struct i2c_client *i2c,
 
 	dev_dbg(&i2c->dev, "BEGIN devm_snd_soc_register_component");
 
-	/*
-	if(maxrate == 768) {
-		rate = "768";
-	} else {
-		rate = "384";
-	}
-	strcpy(name, "Musica Pristina ");
-	strcpy(name, rate);
-	strcpy(name, " ");
-	strcpy(name, strategy);
-
-
-	if(ocxo == 1) {
-		strategy = "OCXO";
-	} else {
-		strategy = "DFXO";
-	}
-
-	dev_dbg(&client->dev, "    STRATEGY: %s", strategy);
-	snprintf(mp2019_dai.name, sizeof(mp2019_dai.name), "%s %d %s", mp2019_dai.name, maxrate, strategy);
-	dev_dbg(&client->dev, "*** and the name is: %s", mp2019_dai.name);
-
-
-	ret = snd_soc_register_codec(&clkgen_client->dev, &mp2019_codec_driver,
-	 			     &mp2019_dai, 1);
-	*/
 
 	dev_dbg(&i2c->dev, "    client->dev");
 	dev_dbg(&clkgen_client->dev, "    &clkgen_client->dev");
@@ -557,27 +679,25 @@ static int mp2019_oscsel_i2c_probe(struct i2c_client *i2c,
 		return ret;
 
 	dev_dbg(&i2c->dev, "    BEGIN default OSCSEL regs");
-
 	for (i = 0; i < ARRAY_SIZE(mp2019_oscsel_reg_defaults); i++)
 	{
 		regmap_write(mp->oscsel_regmap, mp2019_oscsel_reg_defaults[i].reg,
 					 mp2019_oscsel_reg_defaults[i].def);
 	}
-
 	dev_dbg(&i2c->dev, "    END default OSCSEL regs");
-	dev_dbg(&i2c->dev, "    BEGIN default CLKGEN regs");
 
+	dev_dbg(&i2c->dev, "    BEGIN default CLKGEN regs");
 	for (i = 0; i < ARRAY_SIZE(mp2019_codec_reg_defaults); i++)
 	{
 		clkgen_regmap_write(mp->clkgen_regmap,
 							mp2019_codec_reg_defaults[i].reg,
 							mp2019_codec_reg_defaults[i].def);
 	}
-
 	dev_dbg(&i2c->dev, "    END default CLKGEN regs");
 
+	
 	dev_dbg(&i2c->dev, "END mp2019_oscsel_i2c_probe");
-
+	pr_warn("END mp2019_oscsel_i2c_probe");
 	return 0;
 }
 
@@ -588,7 +708,7 @@ static int mp2019_oscsel_i2c_remove(struct i2c_client *i2c)
 }
 
 static const struct i2c_device_id mp2019_oscsel_id[] = {
-	{"mp2019_oscsel", 0},
+	{ "mp2019_oscsel", 0 },
 	{},
 };
 MODULE_DEVICE_TABLE(i2c, mp2019_oscsel_id);
@@ -597,7 +717,8 @@ static const struct of_device_id mp2019_oscsel_dt_ids[] = {
 	{
 		.compatible = "mp,codec-oscsel",
 	},
-	{/* sentinel */}};
+	{ /* sentinel */ }
+};
 MODULE_DEVICE_TABLE(of, mp2019_oscsel_dt_ids);
 
 static struct i2c_driver mp2019_oscsel_i2c_driver = {
@@ -612,21 +733,33 @@ static struct i2c_driver mp2019_oscsel_i2c_driver = {
 };
 /* end mp2019_oscel I2C */
 
+
+
+
+
+
+
+
+
+
+
 /* mp2019 I2C */
 static const struct of_device_id mp2019_of_match[] = {
 	{
 		.compatible = "mp,mp-clkgen",
 	},
-	{}};
+	{}
+};
 MODULE_DEVICE_TABLE(of, mp2019_of_match);
 
 static int mp2019_i2c_probe(struct i2c_client *client,
-							const struct i2c_device_id *id)
+			const struct i2c_device_id *id)
 {
 	struct mp2019_codec_priv *mp;
 	int ret;
 
 	dev_dbg(&client->dev, "BEGIN mp2019_i2c_probe");
+	pr_warn("BEGIN mp2019_i2c_probe");
 
 	mp = devm_kzalloc(&client->dev, sizeof(*mp), GFP_KERNEL);
 	if (!mp)
@@ -658,7 +791,7 @@ static int mp2019_i2c_remove(struct i2c_client *client)
 }
 
 static const struct i2c_device_id mp2019_codec_id[] = {
-	{"mp2019", 0},
+	{ "mp2019", 0 },
 	{},
 };
 MODULE_DEVICE_TABLE(i2c, mp2019_codec_id);
@@ -679,21 +812,29 @@ static int __init mp2019_codec_init(void)
 	int ret;
 
 	ret = i2c_add_driver(&mp2019_i2c_driver);
-	if (ret)
-	{
+	if (ret) {
 		return ret;
 	}
+
 	ret = i2c_add_driver(&mp2019_oscsel_i2c_driver);
-	if (ret)
-	{
+	if (ret) {
 		i2c_del_driver(&mp2019_i2c_driver);
 	}
+
 	ret = i2c_add_driver(&mp2019_lcd_i2c_driver);
-	if (ret)
-	{
+	if (ret) {
 		i2c_del_driver(&mp2019_oscsel_i2c_driver);
 		i2c_del_driver(&mp2019_i2c_driver);
 	}
+
+	ret = i2c_add_driver(&mp2019_aes_i2c_driver);
+	if (ret) {
+		i2c_del_driver(&mp2019_lcd_i2c_driver);
+		i2c_del_driver(&mp2019_oscsel_i2c_driver);
+		i2c_del_driver(&mp2019_i2c_driver);
+	}
+
+	pr_warn("mp2019_codec_init: COMPLETE ret = %d", ret);
 	return ret;
 }
 module_init(mp2019_codec_init);
@@ -701,6 +842,7 @@ module_init(mp2019_codec_init);
 static void __exit mp2019_codec_exit(void)
 {
 	i2c_del_driver(&mp2019_lcd_i2c_driver);
+	i2c_del_driver(&mp2019_aes_i2c_driver);
 	i2c_del_driver(&mp2019_oscsel_i2c_driver);
 	i2c_del_driver(&mp2019_i2c_driver);
 }

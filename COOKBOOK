@@ -1,13 +1,10 @@
+REDIS:
+adduser -S -H redis redis
+
 make BR2_EXTERNAL=~/Cambio/buildroot/audio/ menuconfig
 make mp_defconfig
 
 make nconfig
-
-
-
-
-# set up the external structure
-make BR2_EXTERNAL=/mnt/c/Git/cambio3/buildroot/ nconfig
 
 # list all defconfigs
 make list-defconfigs
@@ -24,3 +21,24 @@ run recovery-windows.bat
 
 # STATUS
 cat /var/volatile/tezi.log
+
+# Diff the changes from ~/linux folder
+git diff v4.19 kew-v4.19 > patch.diff
+git diff v5.2 kew-v5.2 > patch.diff
+
+
+cp sound/soc/codecs/mp* ~/Cambio/buildroot/audio/package/mpcodec/
+# buildroot
+cd ~/buildroot
+make linux-dirclean
+make linux
+make mpcodec
+
+scp ~/buildroot/output/images/zImage root@10.0.0.12:zImage
+scp ~/buildroot/output/images/imx7d-colibri-eval-v3.dtb root@10.0.0.12:imx7d-colibri-eval-v3.dtb
+scp ~/buildroot/output/target/lib/modules/5.1.16/extra/snd-soc-mp-codec.ko root@10.0.0.12:/lib/modules/5.1.16/extra/snd-soc-mp-codec.ko
+
+
+
+ubiupdatevol /dev/ubi0_0 zImage
+ubiupdatevol /dev/ubi0_1 imx7d-colibri-eval-v3.dtb

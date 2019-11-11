@@ -1,16 +1,10 @@
 #!/bin/sh
-
-NAME=Cambio_NodeJS
-PIDFILE=/var/run/$NAME.pid
-LOGFILE=/var/log/$NAME.log
-APP_DIR="/www/server/server"
-APP_DIR="/opt/server"
-NODE_APP="server.js"
-DAEMON=$(which node)
-OPTS="$APP_DIR/$NODE_APP"
-
-
-    
+NAME=redis
+DAEMON=/usr/bin/$NAME-server
+PIDDIR=/var/run/$NAME
+PIDFILE=$PIDDIR/$NAME.pid
+CONFFILE=/opt/$NAME/$NAME.conf
+OPTS=$CONFFILE
 
 # Sanity checks
 test -f $CONFFILE || exit 0
@@ -19,6 +13,9 @@ if [ ! -d $PIDDIR ]
 then
   mkdir -p $PIDDIR
 fi
+
+chown -R redis:redis $PIDDIR
+chown -R redis:redis /opt/$NAME
 
 if [ ! -x $DAEMON ]; then
   echo "ERROR: Can't locate $DAEMON."
@@ -39,9 +36,8 @@ is_running() {
 
 start() {
         printf "Starting $NAME: "
-        export NODE_ENV=$NODE_ENVIROMENT
-        cd $APP_DIR
-        start-stop-daemon -S -q -b -m -p $PIDFILE --exec $DAEMON -- $OPTS
+        # CONFIGURE PIDFILE IN CONFIG
+        start-stop-daemon -S -q -b -c redis:redis --exec $DAEMON -- $OPTS
         case "$?" in
         0)
             echo "$NAME started (`get_pid`)"
