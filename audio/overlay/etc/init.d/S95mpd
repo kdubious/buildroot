@@ -1,6 +1,6 @@
 #!/bin/sh
 NAME=mpd
-PIDFILE=/var/run/mpd.pid
+PIDFILE=/var/run/mpd/mpd.pid
 
 # Sanity checks
 test -f /etc/mpd.conf || exit 0
