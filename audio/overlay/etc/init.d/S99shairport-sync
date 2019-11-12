@@ -1,10 +1,10 @@
 #!/bin/sh
-NAME=mpd
+NAME=shairport-sync
 DAEMON=/usr/bin/$NAME
 PIDDIR=/var/run/$NAME
 PIDFILE=$PIDDIR/$NAME.pid
 CONFFILE=/opt/$NAME/$NAME.conf
-OPTS=$CONFFILE
+OPTS="-d -c $CONFFILE"
 
 # Sanity checks
 test -f $CONFFILE || exit 0
@@ -14,8 +14,8 @@ then
   mkdir -p $PIDDIR
 fi
 
-chown -R mpd:audio $PIDDIR
-chown -R mpd:audio /opt/$NAME
+#$chown -R mpd:audio $PIDDIR
+#chown -R mpd:audio /opt/$NAME
 
 if [ ! -x $DAEMON ]; then
   echo "ERROR: Can't locate $DAEMON."
@@ -37,8 +37,8 @@ is_running() {
 start() {
         printf "Starting $NAME: "
         # CONFIGURE PIDFILE IN CONFIG
-        start-stop-daemon -S -q -b -c mpd:audio --exec $DAEMON -- $OPTS
-        ## start-stop-daemon -S -v -c mpd:audio --exec /usr/bin/mpd -- /opt/mpd/mpd.conf
+        start-stop-daemon -S -q -b --exec $DAEMON -- $OPTS
+        ## start-stop-daemon -S -v --exec /usr/bin/shairport-sync -- -d -c /opt/shairport-sync/shairport-sync.conf
 
         case "$?" in
         0)
@@ -93,4 +93,31 @@ case "$1" in
         *)
                 echo "Usage: $0 {start|stop|restart}"
                 exit 1
+esac
+
+
+# Additional options that are passed to Shairport Sync
+OPTIONS="-d -c /opt/shairport/shairport-sync.conf"
+
+case "$1" in
+    start)
+        printf "Starting shairport-sync: "
+        start-stop-daemon -S -q --exec /usr/bin/shairport-sync -- $OPTIONS
+        [ $? = 0 ] && echo "OK" || echo "FAIL"
+        ;;
+    stop)
+        printf "Stopping shairport-sync: "
+        start-stop-daemon -K -q --exec /usr/bin/shairport-sync \
+                -p /var/run/shairport-sync/shairport-sync.pid
+        [ $? = 0 ] && echo "OK" || echo "FAIL"
+        ;;
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
 esac
