@@ -1,37 +1,21 @@
 #!/bin/sh
 NAME=mpd
-DAEMON=/usr/bin/$NAME
-PIDDIR=/var/run/$NAME
-PIDFILE=$PIDDIR/$NAME.pid
-CONFFILE=/opt/$NAME/$NAME.conf
-OPTS=$CONFFILE
+PIDFILE=/var/run/mpd/mpd.pid
 
 # Sanity checks
-test -f $CONFFILE || exit 0
+test -f /etc/mpd.conf || exit 0
 
-if [ ! -d $PIDDIR ]
-then
-  mkdir -p $PIDDIR
-fi
-
-chown -R mpd:audio $PIDDIR
-chown -R mpd:audio /opt/$NAME
-
-if [ ! -x $DAEMON ]; then
-  echo "ERROR: Can't locate $DAEMON."
-  exit 1
-fi
+pid_file_exists() {
+    [ -f "$PIDFILE" ]
+}
 
 get_pid() {
-    if [ -f "$PIDFILE" ]; then
-        cat "$PIDFILE"
-    else
-        echo "No PID yet"
-    fi
+    echo "$(cat "$PIDFILE")"
 }
 
 is_running() {
-    [ -f "$PIDFILE" ]
+    PID="$(get_pid)"
+    [ -d /proc/$PID ]
 }
 
 start() {
@@ -61,17 +45,23 @@ start() {
 }
 
 stop() {
-        printf "Stopping $NAME: "
+        printf "Stopping mpd: "
         start-stop-daemon --stop --quiet --pidfile $PIDFILE \
                 && echo "OK" || echo "FAIL"
 }
 
 status() {
-    if is_running; then
-        PID=$(get_pid)
-        echo "$NAME is running with pid $PIDFILE : $(get_pid)"
+    if pid_file_exists
+    then
+        if is_running
+        then
+            PID=$(get_pid)
+            echo "$NAME is running with pid $PIDFILE : $(get_pid)"
+        else
+            echo "$NAME is stopped, but pid file exists"
+        fi
     else
-        echo "$NAME is stopped, but pid file exists"
+        echo "$NAME is stopped"
     fi
 }
 

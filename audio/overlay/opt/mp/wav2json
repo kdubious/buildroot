@@ -1,0 +1,25 @@
+#!/bin/bash
+# Generates a JSON file describing the waveform of an input audio file
+
+[[ $# -eq 0 ]] && { echo "waveform <file>"; exit 1; }
+for i in "$@"
+do
+    path=${i}
+    out=`echo -n "${path}" | sha1sum`:0:2
+    sha1=${out:0:40}
+
+    if [[ "$path" == *.flac ]] || [[ "$path" == *.wav ]];
+    then
+        echo "Lossless file, generating waveform..."
+        wav2json "${path}" -o /tmp/waveform-${sha1}.json --channels mid -p 2 -n &> /dev/null
+    else
+        echo "Compressed file, converting ${path} to WAV..."
+        sox "${path}" -t wav - | wav2json /dev/stdin -o /tmp/waveform-${sha1}.json --channels mid -p 2 -n &> /dev/null
+    fi
+
+    json=$(echo `cat /tmp/waveform-${sha1}.json` | tr -d ' ')
+
+    redis-cli -n 2 set "waveform:${path}" "${json}"
+
+    #rm -f /tmp/waveform-${sha1}.json
+done
