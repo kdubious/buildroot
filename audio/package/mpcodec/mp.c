@@ -404,6 +404,7 @@ static void mp2019_codec_remove(struct snd_soc_component *component)
 }
 
 static const struct snd_soc_component_driver soc_component_dev_mp2019 = {
+	.name = "Musica Pristina I2S",
 	.probe = mp2019_codec_probe,
 	.remove = mp2019_codec_remove,
 	.controls = mp2019_controls,

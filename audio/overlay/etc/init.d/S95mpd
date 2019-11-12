@@ -19,9 +19,29 @@ is_running() {
 }
 
 start() {
-        printf "Starting mpd: "
-        start-stop-daemon -S -q -m -b -p $PIDFILE --exec /usr/bin/mpd \
-                && echo "OK started with pid $PIDFILE : $(get_pid)" || echo "FAIL"
+        printf "Starting $NAME: "
+        # CONFIGURE PIDFILE IN CONFIG
+        start-stop-daemon -S -q -b -c mpd:audio --exec $DAEMON -- $OPTS
+        ## start-stop-daemon -S -v -c mpd:audio --exec /usr/bin/mpd -- /opt/mpd/mpd.conf
+
+        case "$?" in
+        0)
+            echo "$NAME started (`get_pid`)"
+            exit 0
+        ;;
+        1)
+            echo "$NAME seems to be running (`get_pid`)"
+        ;;
+        2)
+            echo "This is really strange [2]"
+        ;;
+        3)
+            echo "ERROR: $NAME did not start"
+        ;;
+        *)
+            echo "This is really strange [???]"
+    esac
+    exit 1
 }
 
 stop() {
