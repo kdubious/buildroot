@@ -1,0 +1,95 @@
+#!/bin/sh
+NAME=upmpdcli
+DAEMON=/usr/bin/$NAME
+PIDDIR=/var/run/$NAME
+PIDFILE=$PIDDIR/$NAME.pid
+CONFFILE=/opt/$NAME/$NAME.conf
+OPTS="-c $CONFFILE"
+
+# Sanity checks
+test -f $CONFFILE || exit 0
+
+if [ ! -d $PIDDIR ]
+then
+  mkdir -p $PIDDIR
+fi
+
+#chown -R redis:redis $PIDDIR
+#chown -R redis:redis /opt/$NAME
+
+if [ ! -x $DAEMON ]; then
+  echo "ERROR: Can't locate $DAEMON."
+  exit 1
+fi
+
+get_pid() {
+    if [ -f "$PIDFILE" ]; then
+        cat "$PIDFILE"
+    else
+        echo "No PID yet"
+    fi
+}
+
+is_running() {
+    [ -f "$PIDFILE" ]
+}
+
+start() {
+        printf "Starting $NAME: "
+        # CONFIGURE PIDFILE IN CONFIG
+        start-stop-daemon -S -q -b --exec /usr/bin/upmpdcli -- $OPTS
+        # start-stop-daemon -S -v --exec $DAEMON -- $OPTS
+        case "$?" in
+        0)
+            echo "$NAME started (`get_pid`)"
+            exit 0
+        ;;
+        1)
+            echo "$NAME seems to be running (`get_pid`)"
+        ;;
+        2)
+            echo "This is really strange [2]"
+        ;;
+        3)
+            echo "ERROR: $NAME did not start"
+        ;;
+        *)
+            echo "This is really strange [???]"
+    esac
+    exit 1
+}
+
+stop() {
+        printf "Stopping $NAME: "
+        start-stop-daemon --stop --quiet --pidfile $PIDFILE \
+                && echo "OK" || echo "FAIL"
+}
+
+status() {
+    if is_running; then
+        PID=$(get_pid)
+        echo "$NAME is running with pid $PIDFILE : $(get_pid)"
+    else
+        echo "$NAME is stopped, but pid file exists"
+    fi
+}
+
+case "$1" in
+        start)
+                start
+                ;;
+        stop)
+                stop
+                ;;
+        restart|reload)
+                stop
+                sleep 1
+                start
+                ;;
+        status)
+                status
+                ;;
+        *)
+                echo "Usage: $0 {start|stop|restart}"
+                exit 1
+esac
