@@ -1,0 +1,4 @@
+#!/bin/sh
+/opt/mp/stop_raat
+/opt/mp/stop_shairport-sync
+

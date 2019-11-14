@@ -1,0 +1,14 @@
+#!/bin/sh
+
+dbus-send --system --print-reply --type=method_call --dest=org.gnome.ShairportSync '/org/gnome/ShairportSync' org.gnome.ShairportSync.RemoteControl.Stop
+
+while true; do
+  result=$(grep "RUNNING" /proc/asound/card*/pcm*/sub*/status)
+  if [ -z "$result" ] ; then
+    echo "done"
+    break
+  fi
+  sleep .1
+  echo "loop"
+done
+
