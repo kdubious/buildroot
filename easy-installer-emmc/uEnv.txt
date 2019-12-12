@@ -30,7 +30,8 @@ bootcmd_mmc0=setenv devnum 0; run mmc_boot
 bootcmd_usb0=setenv devnum 0; run usb_boot
 bootcmd_dhcp=if dhcp ${scriptaddr} ${boot_script_dhcp}; then source ${scriptaddr}; fi;
 distro_bootcmd=for target in ${boot_targets}; do run bootcmd_${target}; done
-emmcargs=ip=off root=/dev/mmcblk0p2 ro rootfstype=ext4 rootwait
+emmcargs=ip=off root=/dev/mmcblk1p2 ro rootfstype=ext4 rootwait
+emmcargsold=ip=off root=/dev/mmcblk0p2 ro rootfstype=ext4 rootwait
 emmcboot=run setup; setenv bootargs ${defargs} ${emmcargs} ${setupargs} ${vidargs}; echo Booting from internal eMMC chip...; run m4boot && load mmc 0:1 ${fdt_addr_r} ${soc}-colibri-emmc-${fdt_board}.dtb && load mmc 0:1 ${kernel_addr_r} ${boot_file} && run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}
 bootm_size=0x10000000
 fdt_addr_r=0x82000000
