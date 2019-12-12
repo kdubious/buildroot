@@ -23,13 +23,17 @@
 #include <sound/soc.h>
 #include "mp.h"
 
+// snd_printk(); // CONFIG_SND_DEBUG 
+// snd_printd(); // CONFIG_SND_DEBUG
+
+
 static int ocxo = 1;
 module_param(ocxo, int, 0644);
 MODULE_PARM_DESC(ocxo, "Boolean to enable OCXO (0/1 == DFXO/OCXO)");
 
-static int maxrate = 768;
-module_param(maxrate, int, 0644);
-MODULE_PARM_DESC(maxrate, "Maximum PCM rate");
+// static int maxrate = 768;
+// module_param(maxrate, int, 0644);
+// MODULE_PARM_DESC(maxrate, "Maximum PCM rate");
 
 /*
 static const char *mp2019_xo_options[] = {
@@ -232,7 +236,9 @@ static int mp2019_hw_params(struct snd_pcm_substream *substream,
 	priv->frame_rate = frame_rate;
 	priv->frame_width = frame_width;
 
-	dev_dbg(component->dev, "BEGIN mp2019_set_clock");
+	pr_warn("BEGIN mp2019_set_clock");
+	pr_warn("   frame rate %d", frame_rate);
+	pr_warn("   frame_width %d", frame_width);
 
 	switch (frame_rate) {
 	case 44100:
@@ -246,13 +252,14 @@ static int mp2019_hw_params(struct snd_pcm_substream *substream,
 		break;
 	case 705600:
 	case 768000:
-		if (maxrate == 768) {
-			break;
-		} else {
-			dev_err(component->dev, "frame rate %d not supported\n",
-				frame_rate);
-			return -EINVAL;
-		}
+		break;
+		// if (maxrate == 768) {
+		// 	break;
+		// } else {
+		// 	dev_err(component->dev, "frame rate %d not supported\n",
+		// 		frame_rate);
+		// 	return -EINVAL;
+		// }
 	default:
 		dev_err(component->dev, "frame rate %d not supported\n",
 			frame_rate);
@@ -284,7 +291,7 @@ static int mp2019_hw_params(struct snd_pcm_substream *substream,
 		return update_playback_DFXO(component, frame_rate, frame_width);
 	}
 
-	dev_dbg(component->dev, "END mp2019_set_clock");
+	pr_warn("END mp2019_set_clock");
 	return 0;
 }
 
@@ -298,6 +305,8 @@ static int mp2019_codec_startup(struct snd_pcm_substream *substream,
 					 &mp2019_rate_constraints);
 
 	return ret;
+
+	// return 0;
 }
 
 
@@ -367,7 +376,10 @@ static struct snd_soc_dai_driver mp2019_dai = {
 			.stream_name = "Playback",
 			.channels_min = 2,
 			.channels_max = 2,
-			.rates = SNDRV_PCM_RATE_KNOT,
+			.rates = SNDRV_PCM_RATE_44100_768000,
+			// .rates =	SNDRV_PCM_RATE_CONTINUOUS,
+			.rate_min =	44100,
+			.rate_max =	768000,
 			.formats = MP2019_FORMATS,
 		},
 	.ops = &mp2019_dai_ops,
