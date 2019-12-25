@@ -1,6 +1,7 @@
 #!/bin/sh
 NAME=mpd
-PIDFILE=/var/run/mpd/mpd.pid
+PIDFILE=/var/run/$NAME.pid
+DAEMON=/usr/bin/$NAME
 
 # Sanity checks
 test -f /etc/mpd.conf || exit 0
@@ -21,16 +22,29 @@ is_running() {
 start() {
         printf "Starting $NAME: "
         # CONFIGURE PIDFILE IN CONFIG
-        start-stop-daemon -S -q -b -c mpd:audio --exec $DAEMON -- $OPTS
-        ## start-stop-daemon -S -v -c mpd:audio --exec /usr/bin/mpd -- /opt/mpd/mpd.conf
+        start-stop-daemon -S -q -b --exec $DAEMON -- $OPTS
+        ## start-stop-daemon -S -v --exec /usr/bin/mpd -- /opt/mpd/mpd.conf
 
         case "$?" in
         0)
-            echo "$NAME started (`get_pid`)"
+            sleep 1
+            if pid_file_exists
+            then
+                echo "$NAME started (`get_pid`)"
+            else
+                echo "$NAME started, but we do not have a PID yet"
+            fi
             exit 0
         ;;
         1)
-            echo "$NAME seems to be running (`get_pid`)"
+            sleep 1
+            if pid_file_exists
+            then
+                echo "$NAME seems to be running (`get_pid`)"
+            else
+                echo "$NAME seems to be running, but we do not have a PID yet"
+            fi
+            exit 0
         ;;
         2)
             echo "This is really strange [2]"
@@ -74,7 +88,7 @@ case "$1" in
                 ;;
         restart|reload)
                 stop
-                sleep 1
+                sleep 2
                 start
                 ;;
         status)

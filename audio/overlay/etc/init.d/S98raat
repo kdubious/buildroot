@@ -19,9 +19,37 @@ is_running() {
 }
 
 start() {
-        printf "Starting $NAME: "
-        start-stop-daemon -S -q -m -b -p $PIDFILE --exec $DAEMON -- $DAEMON_ARGS
-        [ $? = 0 ] && echo "OK started with pid $PIDFILE : $(get_pid)" || echo "FAIL"
+    printf "Starting $NAME: "
+    start-stop-daemon -S -q -m -b -p $PIDFILE --exec $DAEMON -- $DAEMON_ARGS
+    case "$?" in
+        0)
+            if pid_file_exists
+            then
+                echo "$NAME started ($(get_pid))"
+            else
+                echo "$NAME started, but we do not have a PID yet"
+            fi
+            exit 0
+        ;;
+        1)
+            if pid_file_exists
+            then
+                echo "$NAME seems to be running ($(get_pid))"
+            else
+                echo "$NAME seems to be running, but we do not have a PID yet"
+            fi
+            exit 0
+        ;;
+        2)
+            echo "This is really strange [2]"
+        ;;
+        3)
+            echo "ERROR: $NAME did not start"
+        ;;
+        *)
+            echo "This is really strange [???]"
+    esac
+    exit 1
 }
 stop() {
         printf "Stopping $NAME: "

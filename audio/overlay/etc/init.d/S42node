@@ -3,13 +3,10 @@
 NAME=Cambio_NodeJS
 PIDFILE=/var/run/$NAME.pid
 LOGFILE=/var/log/$NAME.log
-APP_DIR="/www/server/server"
-APP_DIR="/opt/server"
+APP_DIR="/opt/www"
 NODE_APP="server.js"
 DAEMON=$(which node)
 OPTS="$APP_DIR/$NODE_APP"
-
-
     
 
 # Sanity checks
