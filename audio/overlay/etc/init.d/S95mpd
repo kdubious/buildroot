@@ -1,10 +1,12 @@
 #!/bin/sh
 NAME=mpd
-PIDFILE=/var/run/$NAME.pid
 DAEMON=/usr/bin/$NAME
+PIDFILE=/var/run/$NAME.pid
+CONFFILE=/opt/$NAME/$NAME.conf
+OPTS=$CONFFILE
 
 # Sanity checks
-test -f /etc/mpd.conf || exit 0
+test -f $CONFFILE || exit 0
 
 pid_file_exists() {
     [ -f "$PIDFILE" ]
@@ -30,7 +32,7 @@ start() {
             sleep 1
             if pid_file_exists
             then
-                echo "$NAME started (`get_pid`)"
+                echo "$NAME started ($(get_pid))"
             else
                 echo "$NAME started, but we do not have a PID yet"
             fi
@@ -40,7 +42,7 @@ start() {
             sleep 1
             if pid_file_exists
             then
-                echo "$NAME seems to be running (`get_pid`)"
+                echo "$NAME seems to be running ($(get_pid))"
             else
                 echo "$NAME seems to be running, but we do not have a PID yet"
             fi
@@ -98,3 +100,5 @@ case "$1" in
                 echo "Usage: $0 {start|stop|restart}"
                 exit 1
 esac
+
+exit $?
