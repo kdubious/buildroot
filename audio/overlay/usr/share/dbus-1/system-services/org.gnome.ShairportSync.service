@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.gnome.ShairportSync
+# Exec=/usr/bin/shairport-sync -d -c /opt/shairport-sync/shairport-sync.conf
+User=root
