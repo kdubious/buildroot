@@ -10,7 +10,7 @@ OPTS="$APP_DIR/$NODE_APP"
     
 
 # Sanity checks
-test -f $CONFFILE || exit 0
+test -f $OPTS || exit 1
 
 if [ ! -d $PIDDIR ]
 then

@@ -1,6 +1,6 @@
 auto lo
 iface lo inet loopback
 
-auto eth0
-iface eth0 inet manual
-    pre-up /sbin/udhcpc -x hostname:ACAPPELLA -b -i eth0
+#auto eth0
+#iface eth0 inet manual
+#    pre-up /sbin/udhcpc -x hostname:ACAPPELLA -b -i eth0
